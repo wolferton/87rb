@@ -1,0 +1,14 @@
+{
+	"Resources": {
+		"Packaged87RbSource": {
+			"Type" : "AWS::S3::Bucket"
+		}
+	},
+
+	"Outputs" : {
+	   "DomainName" : {
+	      "Value" : { "Fn::GetAtt" : [ "Packaged87RbSource", "DomainName" ] },
+	      "Description" : "S3 bucket domain name"
+	   }
+	}
+}

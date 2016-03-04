@@ -1,0 +1,114 @@
+{
+	"Parameters" : {
+          
+	    "InstanceType" : {
+	      "Description" : "Combined control node instance type",
+	      "Type" : "String",
+	      "Default" : "t2.micro",
+	      "AllowedValues" : [ "t2.micro"],
+	      "ConstraintDescription" : "must be a valid EC2 instance type."
+	    },
+
+	    "SshKeyName": {
+	   		"Description": "Pre-defined name of SSH key/pair to use to SSH into control node",
+	      	"Type": "String",
+	      	"Default": "UnsetSshKeyName"
+	    }
+  	},
+
+  	"Conditions" : {
+		"AllowSsh" : {
+			"Fn::Not" : [{
+	     		"Fn::Equals" : [{"Ref" : "SshKeyName"}, "UnsetSshKeyName"]
+	   }]
+	  }
+	},
+  
+  	"Mappings" : {
+	     "AWSRegionToAMI": {
+	      "eu-central-1": {"ami": "ami-d22932be"}
+	    }
+  	},
+
+	"Resources": {
+		"87RbCombinedControlNode": {
+			"Type": "AWS::EC2::Instance",
+			"Metadata": {
+				"AWS::CloudFormation::Init" : {
+					"config" : {
+						"packages" : {
+							"yum" : {
+								"golang"               : []
+							}
+						}
+					}
+				}
+			},
+			"Properties": {
+				"SecurityGroups" : [ { "Ref" : "87RbCombinedControlNodeSG" } ],
+				"ImageId" : { "Fn::FindInMap" : [ "AWSRegionToAMI", { "Ref" : "AWS::Region" }, "ami"] },
+        		"InstanceType"   : { "Ref" : "InstanceType" },
+        		"KeyName" : {
+			      "Fn::If" : [
+			        "AllowSsh",
+			        {"Ref" : "SshKeyName"},
+			        {"Ref" : "AWS::NoValue"}
+			      ]
+			    },
+				"UserData"       : { "Fn::Base64" : { "Fn::Join" : ["", [
+		             "#!/bin/bash -xe\n",
+		             "yum update -y aws-cfn-bootstrap\n",
+
+		             "# Install the files and packages from the metadata\n",
+		             "/opt/aws/bin/cfn-init -v ",
+		             "         --stack ", { "Ref" : "AWS::StackName" },
+		             "         --resource 87RbCombinedControlNode ",
+		             "         --region ", { "Ref" : "AWS::Region" }, "\n",
+
+		             "# Start up the cfn-hup daemon to listen for changes to metadata\n",
+		             "# /opt/aws/bin/cfn-hup || error_exit 'Failed to start cfn-hup'\n",  
+
+		             "# Signal the status from cfn-init\n",
+		             "/opt/aws/bin/cfn-signal -e $? ",
+		             "         --stack ", { "Ref" : "AWS::StackName" },
+		             "         --resource 87RbCombinedControlNode ",
+		             "         --region ", { "Ref" : "AWS::Region" }, "\n"
+		        ]]}}
+			}
+		},
+
+		
+
+		"87RbCombinedControlNodeSG" : {
+			"Type" : "AWS::EC2::SecurityGroup",
+			"Properties" : {
+				"GroupDescription" : "Combined control node (SSH-admin enabled)"
+			}
+		},
+
+		"87RbSshInbound": {
+			"Type": "AWS::EC2::SecurityGroupIngress",
+			"Condition": "AllowSsh",
+            "Properties": {
+				"IpProtocol" : "tcp",
+				"FromPort" : "22",
+				"ToPort" : "22",
+				"CidrIp" : "0.0.0.0/0",
+				"GroupId": {
+		          "Fn::GetAtt": [
+		            "87RbCombinedControlNodeSG",
+		            "GroupId"
+		          ]
+		        }
+			}
+		} 
+
+	},
+
+	"Outputs" : {
+		"WebsiteURL" : {
+			"Description" : "87Rb UI",
+				"Value" : { "Fn::Join" : ["", ["http://", { "Fn::GetAtt" : [ "87RbCombinedControlNode", "PublicDnsName" ]}]] }
+	}
+  }
+}
