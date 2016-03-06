@@ -7,9 +7,7 @@ if ! hash aws 2>/dev/null; then
     exit
 fi
 
-STACK_NAME='source-storage-87Rb'
-
-VERSION=$(<$HOME_87RB/VERSION)
+source $HOME_87RB/DEFAULTS
 
 CMD_OPTIONS=""
 

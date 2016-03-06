@@ -6,9 +6,11 @@
 	},
 
 	"Outputs" : {
-	   "DomainName" : {
-	      "Value" : { "Fn::GetAtt" : [ "Packaged87RbSource", "DomainName" ] },
-	      "Description" : "S3 bucket domain name"
+	   "BucketName" : {
+	   		"Value": {
+	      		"Ref": "Packaged87RbSource"
+	      	},
+	      	"Description" : "Resource name of the bucket used to store source files"
 	   }
 	}
 }

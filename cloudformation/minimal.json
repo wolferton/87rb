@@ -13,6 +13,16 @@
 	   		"Description": "Pre-defined name of SSH key/pair to use to SSH into control node",
 	      	"Type": "String",
 	      	"Default": "UnsetSshKeyName"
+	    },
+
+	    "SourceStorageS3Bucket": {
+	    	"Description": "The ID of the S3 bucket into which 87Rb source code will be uploaded",
+	    	"Type": "String"
+	    }
+
+	    "87RbVersion": {
+	    	"Description": "The version of 87Rb that will be deployed",
+	    	"Type": "String"
 	    }
   	},
 
