@@ -11,7 +11,7 @@ source $HOME_87RB/DEFAULTS
 
 CMD_OPTIONS=""
 
-aws cloudformation create-stack --stack-name $STACK_NAME --template-body file://$HOME_87RB/cloudformation/source-bucket.json $CMD_OPTIONS
+aws cloudformation create-stack --stack-name $V87RB_STACK_NAME_SOURCE_STORAGE --template-body file://$HOME_87RB/cloudformation/source-bucket.json $CMD_OPTIONS --output text
 
 
 

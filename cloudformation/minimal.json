@@ -15,10 +15,15 @@
 	      	"Default": "UnsetSshKeyName"
 	    },
 
-	    "SourceStorageS3Bucket": {
+	    "SourceStorageS3BucketId": {
 	    	"Description": "The ID of the S3 bucket into which 87Rb source code will be uploaded",
 	    	"Type": "String"
-	    }
+	    },
+
+	    "SourceStorageS3BucketDomain": {
+	    	"Description": "The ID of the S3 bucket into which 87Rb source code will be uploaded",
+	    	"Type": "String"
+	    },
 
 	    "87RbVersion": {
 	    	"Description": "The version of 87Rb that will be deployed",
@@ -36,25 +41,89 @@
   
   	"Mappings" : {
 	     "AWSRegionToAMI": {
-	      "eu-central-1": {"ami": "ami-d22932be"}
+	      "eu-central-1": {"ami": "ami-d22932be"},
+	      "eu-west-1": {"ami": "ami-e1398992"}
 	    }
   	},
 
 	"Resources": {
+		"87RbCombinedControlNodeIamRole":{
+			"Type":"AWS::IAM::Role",
+			"Properties":{
+				"AssumeRolePolicyDocument":{
+					"Statement":[
+						{
+							"Effect":"Allow",
+							"Principal":{
+								"Service":[ "ec2.amazonaws.com" ]
+							},
+							"Action":[ "sts:AssumeRole" ]
+						}
+					]
+				},
+			"Path":"/"
+			}
+		},
+		"87RbCombinedControlNodeIamRolePolicies":{
+			"Type":"AWS::IAM::Policy",
+			"Properties":{
+				"PolicyName":"S3Download",
+				"PolicyDocument":{
+					"Statement":[
+						{
+							"Action":[ "s3:GetObject" ],
+							"Effect":"Allow",
+							"Resource": {"Fn::Join" : [ "", [ "arn:aws:s3:::", {"Ref": "SourceStorageS3BucketId"}, "/*"] ]}
+						}
+					]
+				},
+				"Roles":[ {"Ref":"87RbCombinedControlNodeIamRole"} ]
+			}
+		},
+		"87RbCombinedControlNodeIamInstanceProfile":{
+			"Type":"AWS::IAM::InstanceProfile",
+			"Properties":{
+				"Path":"/",
+				"Roles":[
+				{
+					"Ref":"87RbCombinedControlNodeIamRole"
+				}
+				]
+			}
+		},
+
 		"87RbCombinedControlNode": {
 			"Type": "AWS::EC2::Instance",
 			"Metadata": {
+				"AWS::CloudFormation::Authentication": {
+					"S3AccessCreds": {
+						"type": "S3",
+						"roleName": { "Ref" : "87RbCombinedControlNodeIamRole"},
+						"buckets" : [ {"Ref": "SourceStorageS3BucketId"} ]
+					}
+				},
 				"AWS::CloudFormation::Init" : {
 					"config" : {
 						"packages" : {
 							"yum" : {
 								"golang"               : []
 							}
+						},
+						"users": {
+							"87rb": {
+								"homeDir" : "/home/87rb"	
+							}
+						},
+						"sources": {
+							"/home/87rb/go/src/github.com/wolferton/87rb": {"Fn::Join" : [ "", [ "https://", {"Ref": "SourceStorageS3BucketDomain"}, "/87rb-api-", {"Ref": "87RbVersion"}, ".tar.gz" ] ]}
 						}
 					}
 				}
 			},
 			"Properties": {
+				"IamInstanceProfile":{
+					"Ref":"87RbCombinedControlNodeIamInstanceProfile"
+				},
 				"SecurityGroups" : [ { "Ref" : "87RbCombinedControlNodeSG" } ],
 				"ImageId" : { "Fn::FindInMap" : [ "AWSRegionToAMI", { "Ref" : "AWS::Region" }, "ami"] },
         		"InstanceType"   : { "Ref" : "InstanceType" },
@@ -68,22 +137,12 @@
 				"UserData"       : { "Fn::Base64" : { "Fn::Join" : ["", [
 		             "#!/bin/bash -xe\n",
 		             "yum update -y aws-cfn-bootstrap\n",
-
 		             "# Install the files and packages from the metadata\n",
 		             "/opt/aws/bin/cfn-init -v ",
 		             "         --stack ", { "Ref" : "AWS::StackName" },
 		             "         --resource 87RbCombinedControlNode ",
-		             "         --region ", { "Ref" : "AWS::Region" }, "\n",
-
-		             "# Start up the cfn-hup daemon to listen for changes to metadata\n",
-		             "# /opt/aws/bin/cfn-hup || error_exit 'Failed to start cfn-hup'\n",  
-
-		             "# Signal the status from cfn-init\n",
-		             "/opt/aws/bin/cfn-signal -e $? ",
-		             "         --stack ", { "Ref" : "AWS::StackName" },
-		             "         --resource 87RbCombinedControlNode ",
 		             "         --region ", { "Ref" : "AWS::Region" }, "\n"
-		        ]]}}
+					]]}}
 			}
 		},
 
@@ -116,9 +175,17 @@
 	},
 
 	"Outputs" : {
-		"WebsiteURL" : {
+		"AdminUiUrl" : {
 			"Description" : "87Rb UI",
-				"Value" : { "Fn::Join" : ["", ["http://", { "Fn::GetAtt" : [ "87RbCombinedControlNode", "PublicDnsName" ]}]] }
+			"Value" : { "Fn::Join" : ["", ["http://", { "Fn::GetAtt" : [ "87RbCombinedControlNode", "PublicDnsName" ]}]] }
+		},
+		"CombinedControlNodePublicDomain": {
+			"Description": "Domain name for combined control node",
+			"Value": {"Fn::GetAtt" : [ "87RbCombinedControlNode", "PublicDnsName" ]}
+		},
+		"Version": {
+			"Description": "Deployed version of 87Rb",
+			"Value": {"Ref": "87RbVersion"}
+		}
 	}
-  }
 }

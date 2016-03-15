@@ -4,13 +4,24 @@
 			"Type" : "AWS::S3::Bucket"
 		}
 	},
+	
+	"Mappings" : {
+	     "AWSRegionToS3EndPoint": {
+	      "eu-central-1": {"uri": "https://s3.eu-central-1.amazonaws.com/"},
+	      "eu-west-1": {"uri": "https://s3-eu-west-1.amazonaws.com/"}
+	    }
+  	},
 
 	"Outputs" : {
-	   "BucketName" : {
+	   "SourceBucketId" : {
 	   		"Value": {
 	      		"Ref": "Packaged87RbSource"
 	      	},
 	      	"Description" : "Resource name of the bucket used to store source files"
-	   }
+	   },
+	   	"SourceBucketDomainName": {
+      		"Value": { "Fn::GetAtt" : [ "Packaged87RbSource", "DomainName" ] },
+      		"Description" : "URL for bucket"
+		}
 	}
 }
