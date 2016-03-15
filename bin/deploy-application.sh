@@ -10,13 +10,13 @@ fi
 
 
 BUCKET_ID=$(stack-output-value.sh $V87RB_STACK_NAME_SOURCE_STORAGE SourceBucketId)
-BUCKET_DOMAIN=$(stack-output-value.sh $V87RB_STACK_NAME_SOURCE_STORAGE SourceBucketDomainName)
+BUCKET_URI=$(stack-output-value.sh $V87RB_STACK_NAME_SOURCE_STORAGE SourceBucketUri)
 
 TOPOLOGY=$1
 AWS_SAFE_VERSION=${V87RB_VERSION//./-}
 
 STACK_NAME=$V87RB_STACK_NAME_APPLICATION-$TOPOLOGY-$AWS_SAFE_VERSION
-STACK_VARIABLES="ParameterKey=SourceStorageS3BucketDomain,ParameterValue=$BUCKET_DOMAIN ParameterKey=SourceStorageS3BucketId,ParameterValue=$BUCKET_ID ParameterKey=87RbVersion,ParameterValue=$V87RB_VERSION"
+STACK_VARIABLES="ParameterKey=SourceStorageS3BucketUri,ParameterValue=$BUCKET_URI ParameterKey=SourceStorageS3BucketId,ParameterValue=$BUCKET_ID ParameterKey=87RbVersion,ParameterValue=$V87RB_VERSION"
 
 if [ -n $V87RB_SSH_KEY_NAME ]
 then

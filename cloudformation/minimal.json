@@ -20,14 +20,32 @@
 	    	"Type": "String"
 	    },
 
-	    "SourceStorageS3BucketDomain": {
-	    	"Description": "The ID of the S3 bucket into which 87Rb source code will be uploaded",
+	    "SourceStorageS3BucketUri": {
+	    	"Description": "The base URI of the S3 source storage bucket",
 	    	"Type": "String"
 	    },
 
 	    "87RbVersion": {
 	    	"Description": "The version of 87Rb that will be deployed",
 	    	"Type": "String"
+	    },
+
+	    "GoHome" : {
+	      "Description" : "Base folder for components written in Go",
+	      "Type" : "String",
+	      "Default" : "/home/87rb/go"
+	    },
+
+	    "Install87RbFolder" : {
+	      "Description" : "Install directory for uploaded source files",
+	      "Type" : "String",
+	      "Default" : "/home/87rb/go/src/github.com/wolferton/87rb"
+	    },
+
+	    "87RbHomeFolder": {
+	    	"Description": "The home folder for the 87rb user",
+	    	"Type": "String",
+	    	"Default" : "/home/87rb"
 	    }
   	},
 
@@ -41,8 +59,8 @@
   
   	"Mappings" : {
 	     "AWSRegionToAMI": {
-	      "eu-central-1": {"ami": "ami-d22932be"},
-	      "eu-west-1": {"ami": "ami-e1398992"}
+	      	"eu-central-1": {"ami": "ami-d22932be"},
+	      	"eu-west-1": {"ami": "ami-e1398992"}
 	    }
   	},
 
@@ -96,7 +114,7 @@
 			"Type": "AWS::EC2::Instance",
 			"Metadata": {
 				"AWS::CloudFormation::Authentication": {
-					"S3AccessCreds": {
+					"SourceBucketS3AccessCreds": {
 						"type": "S3",
 						"roleName": { "Ref" : "87RbCombinedControlNodeIamRole"},
 						"buckets" : [ {"Ref": "SourceStorageS3BucketId"} ]
@@ -114,8 +132,41 @@
 								"homeDir" : "/home/87rb"	
 							}
 						},
-						"sources": {
-							"/home/87rb/go/src/github.com/wolferton/87rb": {"Fn::Join" : [ "", [ "https://", {"Ref": "SourceStorageS3BucketDomain"}, "/87rb-api-", {"Ref": "87RbVersion"}, ".tar.gz" ] ]}
+						"files": {
+							"/home/87rb/src/87rb-api.tar.gz": {
+								"owner": "87rb",
+								"group": "87rb",
+								"source": {"Fn::Join" : [ "", [ {"Ref": "SourceStorageS3BucketUri"}, "/", {"Ref": "87RbVersion"}, "/src/87rb-api.tar.gz" ] ]},
+								"authentication" : "SourceBucketS3AccessCreds"
+							},
+							"/home/87rb/src/87rb-ui.tar.gz": {
+								"owner": "87rb",
+								"group": "87rb",
+								"source": {"Fn::Join" : [ "", [ {"Ref": "SourceStorageS3BucketUri"}, "/", {"Ref": "87RbVersion"}, "/src/87rb-ui.tar.gz" ] ]},
+								"authentication" : "SourceBucketS3AccessCreds"
+							},
+							"/home/87rb/src/87rb-trigger.tar.gz": {
+								"owner": "87rb",
+								"group": "87rb",
+								"source": {"Fn::Join" : [ "", [ {"Ref": "SourceStorageS3BucketUri"}, "/", {"Ref": "87RbVersion"}, "/src/87rb-trigger.tar.gz" ] ]},
+								"authentication" : "SourceBucketS3AccessCreds"
+							},
+							"/home/87rb/bin/build.sh": {
+								"owner": "87rb",
+								"group": "87rb",
+								"mode": "744",
+								"source": {"Fn::Join" : [ "", [ {"Ref": "SourceStorageS3BucketUri"}, "/", {"Ref": "87RbVersion"}, "/templates/build.sh" ] ]},
+								"context": {
+									"GoHome": {"Ref": "GoHome"},
+									"InstallHome": { "Ref": "Install87RbFolder"},
+									"SourceHome": {"Fn::Join" : [ "", [ {"Ref": "87RbHomeFolder"}, "/src"] ]}	
+								}
+							}
+						},
+						"commands":{
+							"build":{
+								"command" : "/home/87rb/bin/build.sh > /tmp/build.out"
+							}
 						}
 					}
 				}

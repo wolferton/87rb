@@ -19,8 +19,8 @@
 	      	},
 	      	"Description" : "Resource name of the bucket used to store source files"
 	   },
-	   	"SourceBucketDomainName": {
-      		"Value": { "Fn::GetAtt" : [ "Packaged87RbSource", "DomainName" ] },
+	   	"SourceBucketUri": {
+      		"Value": { "Fn::Join" : ["", [{ "Fn::FindInMap" : [ "AWSRegionToS3EndPoint", { "Ref" : "AWS::Region" }, "uri"] }, {"Ref": "Packaged87RbSource"}]] },
       		"Description" : "URL for bucket"
 		}
 	}

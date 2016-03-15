@@ -11,9 +11,10 @@ echo "Packaging source folders"
 
 for COMPONENT in 87rb-api 87rb-ui 87rb-trigger
 do
-	FILE=$COMPONENT-$V87RB_VERSION.tar.gz
+	FILE=$COMPONENT.tar.gz
 	(cd $HOME_87RB && tar -zcf /tmp/$FILE $COMPONENT)
-	echo "Uploading $FILE"
-	aws s3 cp /tmp/$FILE s3://$BUCKET/ --quiet
+	aws s3 cp /tmp/$FILE s3://$BUCKET/$V87RB_VERSION/src/ --quiet
 	rm /tmp/$FILE
 done
+
+aws s3 cp $HOME_87RB/templates/* s3://$BUCKET/$V87RB_VERSION/templates/ --quiet
