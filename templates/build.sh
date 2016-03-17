@@ -1,5 +1,5 @@
 #!/bin/bash
-export GOPATH={{GoHome}}
+export GOPATH={{GoPath}}
 export INSTALL_HOME={{InstallHome}}
 SRC_HOME={{SourceHome}}
 

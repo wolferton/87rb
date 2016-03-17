@@ -17,4 +17,5 @@ do
 	rm /tmp/$FILE
 done
 
-aws s3 cp $HOME_87RB/templates/* s3://$BUCKET/$V87RB_VERSION/templates/ --quiet
+aws s3 cp $HOME_87RB/templates/build.sh s3://$BUCKET/$V87RB_VERSION/templates/ --quiet
+aws s3 cp $HOME_87RB/templates/init.d s3://$BUCKET/$V87RB_VERSION/templates/ --quiet

@@ -30,7 +30,7 @@
 	    	"Type": "String"
 	    },
 
-	    "GoHome" : {
+	    "GoPath" : {
 	      "Description" : "Base folder for components written in Go",
 	      "Type" : "String",
 	      "Default" : "/home/87rb/go"
@@ -122,9 +122,30 @@
 				},
 				"AWS::CloudFormation::Init" : {
 					"config" : {
+						"services": {
+							"sysvinit" : {
+							    "87rb-trigger" : {
+							      "enabled" : "true",
+							      "ensureRunning" : "true"
+							    },
+							    "87rb-api" : {
+							      "enabled" : "true",
+							      "ensureRunning" : "true"
+							    },
+							    "87rb-ui" : {
+							      "enabled" : "true",
+							      "ensureRunning" : "true"
+							    },
+							    "mysqld": {
+							      "enabled" : "true",
+							      "ensureRunning" : "true"	
+							    }
+							}							
+						},
 						"packages" : {
 							"yum" : {
-								"golang"               : []
+								"golang"               : [],
+								"mysql-server": []
 							}
 						},
 						"users": {
@@ -157,15 +178,57 @@
 								"mode": "744",
 								"source": {"Fn::Join" : [ "", [ {"Ref": "SourceStorageS3BucketUri"}, "/", {"Ref": "87RbVersion"}, "/templates/build.sh" ] ]},
 								"context": {
-									"GoHome": {"Ref": "GoHome"},
+									"GoPath": {"Ref": "GoPath"},
 									"InstallHome": { "Ref": "Install87RbFolder"},
 									"SourceHome": {"Fn::Join" : [ "", [ {"Ref": "87RbHomeFolder"}, "/src"] ]}	
+								}
+							},
+							"/etc/init.d/87rb-trigger": {
+								"mode": "755",
+								"source": {"Fn::Join" : [ "", [ {"Ref": "SourceStorageS3BucketUri"}, "/", {"Ref": "87RbVersion"}, "/templates/init.d" ] ]},
+								"context": {
+									"GoPath": {"Ref": "GoPath"},
+									"Component": "87rb-trigger",
+									"ComponentHome": {"Fn::Join" : [ "", [ {"Ref": "Install87RbFolder"}, "/87rb-trigger"] ]},
+									"StdOutLog": "/var/log/87rb/87rb-trigger-stdout",
+									"StdErrLog": "/var/log/87rb/87rb-trigger-stderr",
+									"User": "87rb"	
+								}
+							},
+							"/etc/init.d/87rb-api": {
+								"mode": "755",
+								"source": {"Fn::Join" : [ "", [ {"Ref": "SourceStorageS3BucketUri"}, "/", {"Ref": "87RbVersion"}, "/templates/init.d" ] ]},
+								"context": {
+									"GoPath": {"Ref": "GoPath"},
+									"Component": "87rb-api",
+									"ComponentHome": {"Fn::Join" : [ "", [ {"Ref": "Install87RbFolder"}, "/87rb-api"] ]},
+									"StdOutLog": "/var/log/87rb/87rb-api-stdout",
+									"StdErrLog": "/var/log/87rb/87rb-api-stderr",
+									"User": "87rb"	
+								}
+							},
+							"/etc/init.d/87rb-ui": {
+								"mode": "755",
+								"source": {"Fn::Join" : [ "", [ {"Ref": "SourceStorageS3BucketUri"}, "/", {"Ref": "87RbVersion"}, "/templates/init.d" ] ]},
+								"context": {
+									"GoPath": {"Ref": "GoPath"},
+									"Component": "87rb-ui",
+									"ComponentHome": {"Fn::Join" : [ "", [ {"Ref": "Install87RbFolder"}, "/87rb-ui"] ]},
+									"StdOutLog": "/var/log/87rb/87rb-ui-stdout",
+									"StdErrLog": "/var/log/87rb/87rb-ui-stderr",
+									"User": "87rb"	
 								}
 							}
 						},
 						"commands":{
 							"build":{
 								"command" : "/home/87rb/bin/build.sh > /tmp/build.out"
+							},
+							"logFolders":{
+								"command" : "mkdir /var/log/87rb && chown 87rb:87rb /var/log/87rb"
+							},
+							"startServices":{
+								"command": "/etc/init.d/87rb-trigger start && /etc/init.d/87rb-api start && /etc/init.d/87rb-ui start"
 							}
 						}
 					}
