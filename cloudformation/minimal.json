@@ -15,6 +15,12 @@
 	      	"Default": "UnsetSshKeyName"
 	    },
 
+	    "CoreDbAdminPassword": {
+	   		"Description": "Adminstrator (not root) password for the core PostgreSQL database",
+	      	"Type": "String",
+	      	"Default": "csdc8plq01vbr"
+	    },
+
 	    "SourceStorageS3BucketId": {
 	    	"Description": "The ID of the S3 bucket into which 87Rb source code will be uploaded",
 	    	"Type": "String"
@@ -136,16 +142,17 @@
 							      "enabled" : "true",
 							      "ensureRunning" : "true"
 							    },
-							    "mysqld": {
+							    "postgresql94": {
 							      "enabled" : "true",
-							      "ensureRunning" : "true"	
+							      "ensureRunning" : "true",
+							      "packages" : { "yum" : ["postgresql94-server"] }	
 							    }
 							}							
 						},
 						"packages" : {
 							"yum" : {
 								"golang"               : [],
-								"mysql-server": []
+								"postgresql94-server": []
 							}
 						},
 						"users": {
@@ -154,6 +161,12 @@
 							}
 						},
 						"files": {
+							"/home/87rb/schema/87rb-core.sql": {
+								"owner": "87rb",
+								"group": "87rb",
+								"source": {"Fn::Join" : [ "", [ {"Ref": "SourceStorageS3BucketUri"}, "/", {"Ref": "87RbVersion"}, "/schema/87rb-core.sql" ] ]},
+								"authentication" : "SourceBucketS3AccessCreds"
+							},
 							"/home/87rb/src/87rb-api.tar.gz": {
 								"owner": "87rb",
 								"group": "87rb",
@@ -181,6 +194,16 @@
 									"GoPath": {"Ref": "GoPath"},
 									"InstallHome": { "Ref": "Install87RbFolder"},
 									"SourceHome": {"Fn::Join" : [ "", [ {"Ref": "87RbHomeFolder"}, "/src"] ]}	
+								}
+							},
+							"/home/87rb/bin/init-core-db.sh": {
+								"owner": "87rb",
+								"group": "87rb",
+								"mode": "755",
+								"source": {"Fn::Join" : [ "", [ {"Ref": "SourceStorageS3BucketUri"}, "/", {"Ref": "87RbVersion"}, "/templates/init-core-db.sh" ] ]},
+								"context": {
+									"DbAdminUser": "admin87rb",
+									"DbAdminPassword": { "Ref": "CoreDbAdminPassword"}
 								}
 							},
 							"/etc/init.d/87rb-trigger": {
@@ -224,11 +247,17 @@
 							"build":{
 								"command" : "/home/87rb/bin/build.sh > /tmp/build.out"
 							},
+							"initialiseDb":{
+								"command": "service postgresql94 initdb && service postgresql94 start"
+							},
 							"logFolders":{
 								"command" : "mkdir /var/log/87rb && chown 87rb:87rb /var/log/87rb"
 							},
 							"startServices":{
 								"command": "/etc/init.d/87rb-trigger start && /etc/init.d/87rb-api start && /etc/init.d/87rb-ui start"
+							},
+							"readySchema":{
+								"command": "sudo -u postgres /home/87rb/bin/init-core-db.sh"
 							}
 						}
 					}

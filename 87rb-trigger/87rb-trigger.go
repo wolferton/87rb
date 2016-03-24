@@ -6,7 +6,7 @@ import "time"
 func main() {
 
 	for{	
-		fmt.Printf("Hello, world.\n")
+		fmt.Printf("Hello, world (trigger).\n")
 		time.Sleep(5000 * time.Millisecond)
 	}
 }
