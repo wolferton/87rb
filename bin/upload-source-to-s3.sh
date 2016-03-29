@@ -20,5 +20,6 @@ done
 aws s3 cp $HOME_87RB/templates/build.sh s3://$BUCKET/$V87RB_VERSION/templates/ --quiet
 aws s3 cp $HOME_87RB/templates/init.d s3://$BUCKET/$V87RB_VERSION/templates/ --quiet
 aws s3 cp $HOME_87RB/templates/init-core-db.sh s3://$BUCKET/$V87RB_VERSION/templates/ --quiet
+aws s3 cp $HOME_87RB/templates/pg_hba.conf s3://$BUCKET/$V87RB_VERSION/templates/ --quiet
 
 aws s3 cp $HOME_87RB/schema/87rb-core.sql s3://$BUCKET/$V87RB_VERSION/schema/ --quiet
