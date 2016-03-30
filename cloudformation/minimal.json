@@ -202,6 +202,12 @@
 								"source": {"Fn::Join" : [ "", [ {"Ref": "SourceStorageS3BucketUri"}, "/", {"Ref": "87RbVersion"}, "/src/87rb-api.tar.gz" ] ]},
 								"authentication" : "SourceBucketS3AccessCreds"
 							},
+							"/home/87rb/deps/quilt.tar.gz": {
+								"owner": "87rb",
+								"group": "87rb",
+								"source": {"Fn::Join" : [ "", [ {"Ref": "SourceStorageS3BucketUri"}, "/", {"Ref": "87RbVersion"}, "/dependencies/quilt.tar.gz" ] ]},
+								"authentication" : "SourceBucketS3AccessCreds"
+							},
 							"/home/87rb/src/87rb-ui.tar.gz": {
 								"owner": "87rb",
 								"group": "87rb",

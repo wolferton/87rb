@@ -17,6 +17,11 @@ do
 	rm /tmp/$FILE
 done
 
+
+(cd $HOME_87RB/.. && tar -zcf /tmp/quilt.tar.gz quilt)
+aws s3 cp /tmp/quilt.tar.gz s3://$BUCKET/$V87RB_VERSION/dependencies/ --quiet
+rm /tmp/quilt.tar.gz
+
 aws s3 cp $HOME_87RB/templates/build.sh s3://$BUCKET/$V87RB_VERSION/templates/ --quiet
 aws s3 cp $HOME_87RB/templates/init.d s3://$BUCKET/$V87RB_VERSION/templates/ --quiet
 aws s3 cp $HOME_87RB/templates/init-core-db.sh s3://$BUCKET/$V87RB_VERSION/templates/ --quiet

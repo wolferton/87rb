@@ -10,6 +10,7 @@ GOPATH={{GoPath}}
 PATH=$PATH:$GOPATH/bin
 COMPONENT_HOME={{ComponentHome}}
 PID_FILE=/var/run/{{Component}}.pid
+QUILT_HOME={{GoPath}}/src/github.com/wolferton/quilt
 
 . /etc/init.d/functions
 
@@ -19,7 +20,7 @@ function find_pid() {
 
 start() {
     echo -n $"Starting {{Component}}"
-    sudo -u {{User}} $GOPATH/bin/{{Component}} >> "{{StdOutLog}}" 2>> "{{StdErrLog}}" &
+    sudo -u {{User}} QUILT_HOME=$QUILT_HOME $GOPATH/bin/{{Component}} -c $COMPONENT_HOME/conf/config.json  >> "{{StdOutLog}}" 2>> "{{StdErrLog}}" &
     echo $! > $PID_FILE
     success
     echo
