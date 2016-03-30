@@ -1,12 +1,12 @@
 package main
 
-import "fmt"
-import "time"
+import (
+	"github.com/wolferton/quilt/initiation"
+	"github.com/wolferton/87rb/87rb-api/bindings"
+)
 
 func main() {
 
-	for{	
-		fmt.Printf("Hello, world (api).\n")
-		time.Sleep(5000 * time.Millisecond)
-	}
+	quiltInitiator := new(initiation.Initiator)
+	quiltInitiator.Start(bindings.Components())
 }

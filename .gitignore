@@ -1,2 +1,4 @@
 OVERRIDES
-
+.idea*
+*.iml
+bindings*

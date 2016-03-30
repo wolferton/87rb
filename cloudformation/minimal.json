@@ -15,6 +15,18 @@
 	      	"Default": "UnsetSshKeyName"
 	    },
 
+	    "CoreDbApiUser": {
+	   		"Description": "Name of the PostgreSQL user for the API component",
+	      	"Type": "String",
+	      	"Default": "api87Rb"
+	    },
+
+	    "CoreDbApiPassword": {
+	   		"Description": "Password for the PostgreSQL user for the API component",
+	      	"Type": "String",
+	      	"Default": "vedfv8LAA221"
+	    },
+
 	    "CoreDbAdminPassword": {
 	   		"Description": "Adminstrator (not root) password for the core PostgreSQL database",
 	      	"Type": "String",
@@ -174,7 +186,8 @@
 								"source": {"Fn::Join" : [ "", [ {"Ref": "SourceStorageS3BucketUri"}, "/", {"Ref": "87RbVersion"}, "/templates/pg_hba.conf" ] ]},
 								"context": {
 									"DbAdminUser": "admin87rb",
-									"DatabaseName": { "Ref": "CoreDatabaseName"}
+									"DatabaseName": { "Ref": "CoreDatabaseName"},
+									"DbApiUser":  { "Ref": "CoreDbApiUser"}
 								}
 							},
 							"/home/87rb/schema/87rb-core.sql": {
@@ -220,6 +233,8 @@
 								"context": {
 									"DbAdminUser": "admin87rb",
 									"DbAdminPassword": { "Ref": "CoreDbAdminPassword"},
+									"DbApiUser":  { "Ref": "CoreDbApiUser"},
+									"DbApiPassword": { "Ref": "CoreDbApiPassword"},
 									"DatabaseName": { "Ref": "CoreDatabaseName"},
 									"SchemaFile": {"Fn::Join" : [ "", [ {"Ref": "87RbHomeFolder"}, "/schema/87rb-core.sql"] ]}
 								}
