@@ -1,6 +1,21 @@
 {
-  "packages": [],
+  "packages":[
+    "github.com/wolferton/87rb/87rb-api/endpoint",
+    "github.com/wolferton/quilt/facility/httpserver"
+  ],
+
   "components": {
 
+    "postJobEndpoint":{
+      "type": "httpserver.HttpEndPoint",
+      "MethodPatterns": {
+        "POST": "/job"
+      },
+      "Handler": "ref:postJobHandler"
+    },
+
+    "postJobHandler":{
+      "type": "endpoint.PostJobHandler"
+    }
   }
 }
