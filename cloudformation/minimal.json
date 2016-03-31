@@ -296,7 +296,7 @@
 								"command": "/etc/init.d/87rb-trigger start && /etc/init.d/87rb-api start && /etc/init.d/87rb-ui start"
 							},
 							"readySchema":{
-								"command": "sudo -u postgres /home/87rb/bin/init-core-db.sh"
+								"command": "sudo -u postgres /home/87rb/bin/init-core-db.sh > /tmp/schema.out"
 							},
 							"xitCleanup":{
 								"command": "rm -rf /home/87rb/tmp && rm -f /home/87rb/bin/init-core-db.sh"
