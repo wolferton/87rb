@@ -15,6 +15,11 @@
 	      	"Default": "UnsetSshKeyName"
 	    },
 
+		"ApiSecurityGroupId": {
+			"Description": "ID of security group used to control access to the API",
+			"Type": "AWS::EC2::SecurityGroup::Id"
+		},
+
 	    "CoreDbApiUser": {
 	   		"Description": "Name of the PostgreSQL user for the API component",
 	      	"Type": "String",
@@ -309,6 +314,7 @@
 				"IamInstanceProfile":{
 					"Ref":"87RbCombinedControlNodeIamInstanceProfile"
 				},
+				"SecurityGroupIds" : [ {"Ref" : "ApiSecurityGroupId"} ],
 				"SecurityGroups" : [ { "Ref" : "87RbCombinedControlNodeSG" } ],
 				"ImageId" : { "Fn::FindInMap" : [ "AWSRegionToAMI", { "Ref" : "AWS::Region" }, "ami"] },
         		"InstanceType"   : { "Ref" : "InstanceType" },

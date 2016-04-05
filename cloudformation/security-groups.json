@@ -1,0 +1,29 @@
+{
+  "Parameters" : {
+    "ApiPort": {
+      "Description": "Port on which the API component will listen for requests",
+      "Type": "Number"
+    }
+  },
+
+  "Resources": {
+    "Api87RbSecurityGroup" : {
+      "Type" : "AWS::EC2::SecurityGroup",
+        "Properties" : {
+          "GroupDescription" : "HTTP access to API",
+          "SecurityGroupIngress" : [{
+            "IpProtocol" : "tcp",
+            "FromPort" : {"Ref": "ApiPort"},
+            "ToPort" : {"Ref": "ApiPort"},
+            "CidrIp" : "0.0.0.0/0"
+          }]
+      }
+    }
+  },
+  "Outputs" : {
+    "ApiSecurityGroupId": {
+      "Description": "ID of the security group controlling access to the API component",
+      "Value": {"Fn::GetAtt": [ "Api87RbSecurityGroup", "GroupId"] }
+    }
+  }
+}
