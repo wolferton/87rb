@@ -9,6 +9,11 @@
 	      "ConstraintDescription" : "must be a valid EC2 instance type."
 	    },
 
+		"ApiHttpPort": {
+			"Description": "Port on which the API component will listen for requests",
+			"Type": "Number"
+		},
+
 	    "SshKeyName": {
 	   		"Description": "Pre-defined name of SSH key/pair to use to SSH into control node",
 	      	"Type": "String",
@@ -184,6 +189,27 @@
 							}
 						},
 						"files": {
+							"/home/87rb/tmp/87rb-api-parameters.json": {
+								"owner": "87rb",
+								"group": "87rb",
+								"source": {"Fn::Join" : [ "", [ {"Ref": "SourceStorageS3BucketUri"}, "/", {"Ref": "87RbVersion"}, "/config/87rb-api-parameters.json" ] ]},
+								"authentication" : "SourceBucketS3AccessCreds",
+								"context": {
+									"HttpPort": {"Ref": "ApiHttpPort"}
+								}
+							},
+							"/home/87rb/tmp/87rb-ui-parameters.json": {
+								"owner": "87rb",
+								"group": "87rb",
+								"source": {"Fn::Join" : [ "", [ {"Ref": "SourceStorageS3BucketUri"}, "/", {"Ref": "87RbVersion"}, "/config/87rb-ui-parameters.json" ] ]},
+								"authentication" : "SourceBucketS3AccessCreds"
+							},
+							"/home/87rb/tmp/87rb-trigger-parameters.json": {
+								"owner": "87rb",
+								"group": "87rb",
+								"source": {"Fn::Join" : [ "", [ {"Ref": "SourceStorageS3BucketUri"}, "/", {"Ref": "87RbVersion"}, "/config/87rb-trigger-parameters.json" ] ]},
+								"authentication" : "SourceBucketS3AccessCreds"
+							},
 							"/home/87rb/tmp/pg_hba.conf": {
 								"owner": "postgres",
 								"group": "postgres",

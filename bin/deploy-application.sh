@@ -20,7 +20,7 @@ BUCKET_URI=$(stack-output-value.sh $V87RB_STACK_NAME_SOURCE_STORAGE SourceBucket
 AWS_SAFE_VERSION=${V87RB_VERSION//./-}
 
 STACK_NAME=$V87RB_STACK_NAME_APPLICATION-$DEPLOYMENT_NAME-$AWS_SAFE_VERSION
-STACK_VARIABLES="ParameterKey=SourceStorageS3BucketUri,ParameterValue=$BUCKET_URI ParameterKey=SourceStorageS3BucketId,ParameterValue=$BUCKET_ID ParameterKey=87RbVersion,ParameterValue=$V87RB_VERSION ParameterKey=ApiSecurityGroupId,ParameterValue=$API_SG_ID"
+STACK_VARIABLES="ParameterKey=ApiHttpPort,ParameterValue=$V87RB_API_PORT ParameterKey=SourceStorageS3BucketUri,ParameterValue=$BUCKET_URI ParameterKey=SourceStorageS3BucketId,ParameterValue=$BUCKET_ID ParameterKey=87RbVersion,ParameterValue=$V87RB_VERSION ParameterKey=ApiSecurityGroupId,ParameterValue=$API_SG_ID"
 
 if [ -n $V87RB_SSH_KEY_NAME ]
 then

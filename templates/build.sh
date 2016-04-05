@@ -19,6 +19,7 @@ do
     rm -rf $INSTALL_HOME/$COMPONENT
     cp $ARCHIVE $INSTALL_HOME/
     (cd $INSTALL_HOME && tar -xzf $FILE)
+    mv $SRC_HOME/../tmp/$COMPONENT-parameters.json $INSTALL_HOME/$COMPONENT/conf/parameters.json
     (cd $INSTALL_HOME/$COMPONENT && quilt bind && go install)
     rm $INSTALL_HOME/$FILE
 done

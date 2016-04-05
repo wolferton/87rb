@@ -20,7 +20,7 @@ function find_pid() {
 
 start() {
     echo -n $"Starting {{Component}}"
-    sudo -u {{User}} QUILT_HOME=$QUILT_HOME $GOPATH/bin/{{Component}} -c $COMPONENT_HOME/conf/config.json  >> "{{StdOutLog}}" 2>> "{{StdErrLog}}" &
+    sudo -u {{User}} QUILT_HOME=$QUILT_HOME $GOPATH/bin/{{Component}} -c $COMPONENT_HOME/conf/config.json,$COMPONENT_HOME/conf/parameters.json  >> "{{StdOutLog}}" 2>> "{{StdErrLog}}" &
     echo $! > $PID_FILE
     success
     echo
