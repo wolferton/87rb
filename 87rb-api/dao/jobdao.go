@@ -7,3 +7,7 @@ import (
 type JobDao struct {
 	logger logger.Logger
 }
+
+func (jd *JobDao) CreateJob() {
+
+}

@@ -19,6 +19,6 @@ do
     rm -rf $INSTALL_HOME/$COMPONENT
     cp $ARCHIVE $INSTALL_HOME/
     (cd $INSTALL_HOME && tar -xzf $FILE)
-    (cd $INSTALL_HOME/$COMPONENT && quilt CREATE-BINDINGS && go install)
+    (cd $INSTALL_HOME/$COMPONENT && quilt bind && go install)
     rm $INSTALL_HOME/$FILE
 done

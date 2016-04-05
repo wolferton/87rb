@@ -1,6 +1,7 @@
 {
   "packages":[
     "github.com/wolferton/87rb/87rb-api/endpoint",
+    "github.com/wolferton/87rb/87rb-api/dao",
     "github.com/wolferton/quilt/facility/httpserver"
   ],
 
@@ -15,7 +16,12 @@
     },
 
     "postJobHandler":{
-      "type": "endpoint.PostJobHandler"
+      "type": "endpoint.PostJobHandler",
+      "JobDao": "ref:jobDao"
+    },
+
+    "jobDao":{
+      "type": "dao.JobDao"
     }
   }
 }
