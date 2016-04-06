@@ -3,14 +3,21 @@ export GOPATH={{GoPath}}
 export INSTALL_HOME={{InstallHome}}
 SRC_HOME={{SourceHome}}
 export PATH=$PATH:$GOPATH/bin
+DEPS_DIR=$SRC_HOME/../deps
 
 mkdir -p $GOPATH
 mkdir -p $INSTALL_HOME
 
-mv $SRC_HOME/../deps/quilt.tar.gz $INSTALL_HOME/../
-(cd $INSTALL_HOME/.. && tar -xzf quilt.tar.gz)
+#TODO Remove relative paths
+mv $DEPS_DIR/quilt.tar.gz $INSTALL_HOME/../
+(cd $INSTALL_HOME/.. && tar -xzf quilt.tar.gz && rm -f quilt.tar.gz)
 export QUILT_HOME=$INSTALL_HOME/../quilt
 (cd $QUILT_HOME && go install)
+
+GO_LIB_DIR=$INSTALL_HOME/../../lib
+mkdir $GO_LIB_DIR
+mv $DEPS_DIR/pq.tar.gz $GO_LIB_DIR/
+(cd $GO_LIB_DIR && tar -xzf pq.tar.gz)
 
 for ARCHIVE in $SRC_HOME/*.tar.gz
 do
@@ -23,3 +30,5 @@ do
     (cd $INSTALL_HOME/$COMPONENT && quilt bind && go install)
     rm $INSTALL_HOME/$FILE
 done
+
+chown 87rb:8rb $GOPATH

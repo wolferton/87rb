@@ -17,10 +17,15 @@ do
 	rm /tmp/$FILE
 done
 
-
+#Quilt - TODO download from web
 (cd $HOME_87RB/.. && tar -zcf /tmp/quilt.tar.gz quilt)
 aws s3 cp /tmp/quilt.tar.gz s3://$BUCKET/$V87RB_VERSION/dependencies/ --quiet
 rm /tmp/quilt.tar.gz
+
+#PQL - TODO download from web
+(cd $HOME_87RB/../../lib && tar -zcf /tmp/pq.tar.gz pq)
+aws s3 cp /tmp/pq.tar.gz s3://$BUCKET/$V87RB_VERSION/dependencies/ --quiet
+rm /tmp/pq.tar.gz
 
 aws s3 cp $HOME_87RB/templates/build.sh s3://$BUCKET/$V87RB_VERSION/templates/ --quiet
 aws s3 cp $HOME_87RB/templates/init.d s3://$BUCKET/$V87RB_VERSION/templates/ --quiet
