@@ -2,3 +2,4 @@ OVERRIDES
 .idea*
 *.iml
 bindings*
+local

@@ -21,7 +21,8 @@
     },
 
     "jobDao":{
-      "type": "dao.JobDao"
+      "type": "dao.JobDao",
+      "connectionString": "test"
     }
   }
 }

@@ -3,5 +3,10 @@
     "httpServer":{
       "listenPort": {{HttpPort}}
     }
+  },
+  "87Rb":{
+    "coreDb":{
+      "connnectionString": "test"
+    }
   }
 }

@@ -17,7 +17,7 @@ export QUILT_HOME=$INSTALL_HOME/../quilt
 GO_LIB_DIR=$INSTALL_HOME/../../lib
 mkdir $GO_LIB_DIR
 mv $DEPS_DIR/pq.tar.gz $GO_LIB_DIR/
-(cd $GO_LIB_DIR && tar -xzf pq.tar.gz)
+(cd $GO_LIB_DIR && tar -xzf pq.tar.gz && rm -f pq.tar.gz)
 
 for ARCHIVE in $SRC_HOME/*.tar.gz
 do

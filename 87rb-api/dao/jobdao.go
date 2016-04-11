@@ -8,6 +8,7 @@ import (
 
 type JobDao struct {
 	logger logger.Logger
+	connectionString string
 }
 
 func (jd *JobDao) CreateJob() {
