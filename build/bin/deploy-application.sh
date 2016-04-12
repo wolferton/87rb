@@ -1,11 +1,11 @@
 #!/bin/bash
 : ${HOME_87RB:?"You must set the HOME_87RB environment variable before running this script"}
 : ${1:?"You must provide a unique name for the deployment as the first argument to this script"}
-source $HOME_87RB/DEFAULTS
+source $HOME_87RB/build/DEFAULTS
 
-if [ -f $HOME_87RB/OVERRIDES ]
+if [ -f $HOME_87RB/build/OVERRIDES ]
 then
-	source $HOME_87RB/OVERRIDES
+	source $HOME_87RB/build/OVERRIDES
 fi
 
 DEPLOYMENT_NAME=$1
@@ -27,4 +27,4 @@ then
 	STACK_VARIABLES="$STACK_VARIABLES ParameterKey=SshKeyName,ParameterValue=$V87RB_SSH_KEY_NAME"
 fi
 
-aws cloudformation create-stack --stack-name $STACK_NAME --template-body file://$HOME_87RB/cloudformation/unified.json --parameters $STACK_VARIABLES --capabilities CAPABILITY_IAM
+aws cloudformation create-stack --stack-name $STACK_NAME --template-body file://$HOME_87RB/build/cloudformation/unified.json --parameters $STACK_VARIABLES --capabilities CAPABILITY_IAM

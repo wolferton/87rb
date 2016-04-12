@@ -1,6 +1,12 @@
 #!/bin/bash
 : ${HOME_87RB:?"You must set the HOME_87RB environment variable before running this script"}
-source $HOME_87RB/DEFAULTS
+source $HOME_87RB/build/DEFAULTS
+
+if [ -f $HOME_87RB/build/OVERRIDES ]
+then
+	source $HOME_87RB/build/OVERRIDES
+fi
+
 
 echo "Finding S3 bucket details"
 
@@ -27,13 +33,13 @@ rm /tmp/quilt.tar.gz
 aws s3 cp /tmp/pq.tar.gz s3://$BUCKET/$V87RB_VERSION/dependencies/ --quiet
 rm /tmp/pq.tar.gz
 
-aws s3 cp $HOME_87RB/templates/build.sh s3://$BUCKET/$V87RB_VERSION/templates/ --quiet
-aws s3 cp $HOME_87RB/templates/init.d s3://$BUCKET/$V87RB_VERSION/templates/ --quiet
-aws s3 cp $HOME_87RB/templates/init-core-db.sh s3://$BUCKET/$V87RB_VERSION/templates/ --quiet
-aws s3 cp $HOME_87RB/templates/pg_hba.conf s3://$BUCKET/$V87RB_VERSION/templates/ --quiet
-aws s3 cp $HOME_87RB/templates/config/87rb-api-parameters.json s3://$BUCKET/$V87RB_VERSION/config/ --quiet
-aws s3 cp $HOME_87RB/templates/config/87rb-ui-parameters.json s3://$BUCKET/$V87RB_VERSION/config/ --quiet
-aws s3 cp $HOME_87RB/templates/config/87rb-trigger-parameters.json s3://$BUCKET/$V87RB_VERSION/config/ --quiet
+aws s3 cp $HOME_87RB/build/templates/build.sh s3://$BUCKET/$V87RB_VERSION/templates/ --quiet
+aws s3 cp $HOME_87RB/build/templates/init.d s3://$BUCKET/$V87RB_VERSION/templates/ --quiet
+aws s3 cp $HOME_87RB/build/templates/init-core-db.sh s3://$BUCKET/$V87RB_VERSION/templates/ --quiet
+aws s3 cp $HOME_87RB/build/templates/pg_hba.conf s3://$BUCKET/$V87RB_VERSION/templates/ --quiet
+aws s3 cp $HOME_87RB/build/templates/config/87rb-api-parameters.json s3://$BUCKET/$V87RB_VERSION/config/ --quiet
+aws s3 cp $HOME_87RB/build/templates/config/87rb-ui-parameters.json s3://$BUCKET/$V87RB_VERSION/config/ --quiet
+aws s3 cp $HOME_87RB/build/templates/config/87rb-trigger-parameters.json s3://$BUCKET/$V87RB_VERSION/config/ --quiet
 
 aws s3 cp $HOME_87RB/schema/87rb-core.sql s3://$BUCKET/$V87RB_VERSION/schema/ --quiet
 
