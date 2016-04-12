@@ -7,7 +7,7 @@
 
   "components": {
 
-    "postJobEndpoint":{
+    "jobEndpoint":{
       "type": "httpserver.HttpEndPoint",
       "MethodPatterns": {
         "POST": "/job"
@@ -23,6 +23,18 @@
     "jobDao":{
       "type": "dao.JobDao",
       "connectionString": "test"
+    },
+
+    "healthCheckEndpoint": {
+      "type": "httpserver.HttpEndPoint",
+      "MethodPatterns": {
+        "GET": "/health-check"
+      },
+      "Handler": "ref:getHealthCheckHandler"
+    },
+
+    "getHealthCheckHandler":{
+      "type": "endpoint.GetHealthCheckHandler"
     }
   }
 }

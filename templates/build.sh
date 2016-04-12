@@ -31,4 +31,4 @@ do
     rm $INSTALL_HOME/$FILE
 done
 
-chown 87rb:8rb $GOPATH
+chown 87rb:87rb $GOPATH
