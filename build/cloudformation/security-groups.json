@@ -3,6 +3,10 @@
     "ApiPort": {
       "Description": "Port on which the API component will listen for requests",
       "Type": "Number"
+    },
+    "PublicUiPort": {
+      "Description": "Port on which the UI will be available externally",
+      "Type": "Number"
     }
   },
 
@@ -15,6 +19,12 @@
             "IpProtocol" : "tcp",
             "FromPort" : {"Ref": "ApiPort"},
             "ToPort" : {"Ref": "ApiPort"},
+            "CidrIp" : "0.0.0.0/0"
+          },
+          {
+            "IpProtocol" : "tcp",
+            "FromPort" : {"Ref": "PublicUiPort"},
+            "ToPort" : {"Ref": "PublicUiPort"},
             "CidrIp" : "0.0.0.0/0"
           }]
       }

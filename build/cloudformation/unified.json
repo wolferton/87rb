@@ -14,6 +14,11 @@
 			"Type": "Number"
 		},
 
+		"PublicUiPort": {
+			"Description": "Port on which the UI will be available externally",
+			"Type": "Number"
+		},
+
 	    "SshKeyName": {
 	   		"Description": "Pre-defined name of SSH key/pair to use to SSH into control node",
 	      	"Type": "String",
@@ -217,7 +222,7 @@
 								"mode": "644",
 								"source": {"Fn::Join" : [ "", [ {"Ref": "SourceStorageS3BucketUri"}, "/", {"Ref": "87RbVersion"}, "/templates/lighttpd.conf" ] ]},
 								"context": {
-
+									"PublicUiPort": { "Ref": "PublicUiPort"}
 								}
 							},
 							"/home/87rb/tmp/pg_hba.conf": {
@@ -249,6 +254,12 @@
 								"source": {"Fn::Join" : [ "", [ {"Ref": "SourceStorageS3BucketUri"}, "/", {"Ref": "87RbVersion"}, "/dependencies/quilt.tar.gz" ] ]},
 								"authentication" : "SourceBucketS3AccessCreds"
 							},
+							"/home/87rb/tmp/static.tar.gz": {
+								"owner": "87rb",
+								"group": "87rb",
+								"source": {"Fn::Join" : [ "", [ {"Ref": "SourceStorageS3BucketUri"}, "/", {"Ref": "87RbVersion"}, "/static.tar.gz" ] ]},
+								"authentication" : "SourceBucketS3AccessCreds"
+							},
 							"/home/87rb/deps/pq.tar.gz": {
 								"owner": "87rb",
 								"group": "87rb",
@@ -276,6 +287,15 @@
 									"GoPath": {"Ref": "GoPath"},
 									"InstallHome": { "Ref": "Install87RbFolder"},
 									"SourceHome": {"Fn::Join" : [ "", [ {"Ref": "87RbHomeFolder"}, "/src"] ]}	
+								}
+							},
+							"/home/87rb/bin/setup-web-server.sh": {
+								"owner": "87rb",
+								"group": "87rb",
+								"mode": "744",
+								"source": {"Fn::Join" : [ "", [ {"Ref": "SourceStorageS3BucketUri"}, "/", {"Ref": "87RbVersion"}, "/templates/setup-web-server.sh" ] ]},
+								"context": {
+									"Version": {"Ref": "87RbVersion"}
 								}
 							},
 							"/home/87rb/bin/init-core-db.sh": {
@@ -337,7 +357,7 @@
 								"command": "service postgresql94 initdb && mv /home/87rb/tmp/pg_hba.conf /var/lib/pgsql94/data/pg_hba.conf && service postgresql94 start"
 							},
 							"lighttpd":{
-								"command": "mkdir /var/www/87rb-ui && chown 87rb:87rb /var/www/87rb-ui && mv /home/87rb/tmp/lighttpd.conf /etc/lighttpd/lighttpd.conf && service lighttpd start "
+								"command": "/home/87rb/bin/setup-web-server.sh && service lighttpd start "
 							},
 							"logFolders":{
 								"command" : "mkdir /var/log/87rb && chown 87rb:87rb /var/log/87rb"

@@ -23,6 +23,10 @@ do
 	rm /tmp/$FILE
 done
 
+#Static assets
+(cd $HOME_87RB/87rb-ui && tar -zcf /tmp/static.tar.gz static)
+aws s3 cp /tmp/static.tar.gz s3://$BUCKET/$V87RB_VERSION/ --quiet
+
 #Quilt - TODO download from web
 (cd $HOME_87RB/.. && tar -zcf /tmp/quilt.tar.gz quilt)
 aws s3 cp /tmp/quilt.tar.gz s3://$BUCKET/$V87RB_VERSION/dependencies/ --quiet
@@ -34,6 +38,7 @@ aws s3 cp /tmp/pq.tar.gz s3://$BUCKET/$V87RB_VERSION/dependencies/ --quiet
 rm /tmp/pq.tar.gz
 
 aws s3 cp $HOME_87RB/build/templates/build.sh s3://$BUCKET/$V87RB_VERSION/templates/ --quiet
+aws s3 cp $HOME_87RB/build/templates/setup-web-server.sh s3://$BUCKET/$V87RB_VERSION/templates/ --quiet
 aws s3 cp $HOME_87RB/build/templates/init.d s3://$BUCKET/$V87RB_VERSION/templates/ --quiet
 aws s3 cp $HOME_87RB/build/templates/init-core-db.sh s3://$BUCKET/$V87RB_VERSION/templates/ --quiet
 aws s3 cp $HOME_87RB/build/templates/lighttpd.conf s3://$BUCKET/$V87RB_VERSION/templates/ --quiet

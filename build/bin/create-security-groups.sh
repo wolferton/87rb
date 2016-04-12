@@ -14,5 +14,5 @@ DEPLOYMENT_NAME=$1
 STACK_NAME=$V87RB_STACK_NAME_SECURITY_GROUPS-$DEPLOYMENT_NAME
 
 
-STACK_VARIABLES="ParameterKey=ApiPort,ParameterValue=$V87RB_API_PORT"
+STACK_VARIABLES="ParameterKey=ApiPort,ParameterValue=$V87RB_API_PORT ParameterKey=PublicUiPort,ParameterValue=$V87RB_PUBLIC_UI_PORT"
 aws cloudformation create-stack --stack-name $STACK_NAME --template-body file://$HOME_87RB/build/cloudformation/security-groups.json --parameters $STACK_VARIABLES
