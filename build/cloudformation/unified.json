@@ -180,7 +180,8 @@
 						"packages" : {
 							"yum" : {
 								"golang"               : [],
-								"postgresql94-server": []
+								"postgresql94-server": [],
+								"lighttpd": []
 							}
 						},
 						"users": {
@@ -209,6 +210,15 @@
 								"group": "87rb",
 								"source": {"Fn::Join" : [ "", [ {"Ref": "SourceStorageS3BucketUri"}, "/", {"Ref": "87RbVersion"}, "/config/87rb-trigger-parameters.json" ] ]},
 								"authentication" : "SourceBucketS3AccessCreds"
+							},
+							"/home/87rb/tmp/lighttpd.conf": {
+								"owner": "87rb",
+								"group": "87rb",
+								"mode": "644",
+								"source": {"Fn::Join" : [ "", [ {"Ref": "SourceStorageS3BucketUri"}, "/", {"Ref": "87RbVersion"}, "/templates/lighttpd.conf" ] ]},
+								"context": {
+
+								}
 							},
 							"/home/87rb/tmp/pg_hba.conf": {
 								"owner": "postgres",
@@ -325,6 +335,9 @@
 							},
 							"initialiseDb":{
 								"command": "service postgresql94 initdb && mv /home/87rb/tmp/pg_hba.conf /var/lib/pgsql94/data/pg_hba.conf && service postgresql94 start"
+							},
+							"lighttpd":{
+								"command": "mkdir /var/www/87rb-ui && chown 87rb:87rb /var/www/87rb-ui && mv /home/87rb/tmp/lighttpd.conf /etc/lighttpd/lighttpd.conf && service lighttpd start "
 							},
 							"logFolders":{
 								"command" : "mkdir /var/log/87rb && chown 87rb:87rb /var/log/87rb"

@@ -36,6 +36,7 @@ rm /tmp/pq.tar.gz
 aws s3 cp $HOME_87RB/build/templates/build.sh s3://$BUCKET/$V87RB_VERSION/templates/ --quiet
 aws s3 cp $HOME_87RB/build/templates/init.d s3://$BUCKET/$V87RB_VERSION/templates/ --quiet
 aws s3 cp $HOME_87RB/build/templates/init-core-db.sh s3://$BUCKET/$V87RB_VERSION/templates/ --quiet
+aws s3 cp $HOME_87RB/build/templates/lighttpd.conf s3://$BUCKET/$V87RB_VERSION/templates/ --quiet
 aws s3 cp $HOME_87RB/build/templates/pg_hba.conf s3://$BUCKET/$V87RB_VERSION/templates/ --quiet
 aws s3 cp $HOME_87RB/build/templates/config/87rb-api-parameters.json s3://$BUCKET/$V87RB_VERSION/config/ --quiet
 aws s3 cp $HOME_87RB/build/templates/config/87rb-ui-parameters.json s3://$BUCKET/$V87RB_VERSION/config/ --quiet
