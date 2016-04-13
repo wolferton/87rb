@@ -1,15 +1,10 @@
 #!/bin/bash
-: ${HOME_87RB:?"You must set the HOME_87RB environment variable before running this script"}
+#Destroys the AWS CloudFormation stack containing the S3 bucket used for build artifact storage
+source set-87rb-env.sh
 
-source $HOME_87RB/build/DEFAULTS
+checkSourceBucketStackReady
+SOURCE_BUCKET_ID=$(stack-output-value.sh $V87RB_STACK_NAME_SOURCE_STORAGE SourceBucketId)
 
-if [ -f $HOME_87RB/build/OVERRIDES ]
-then
-	source $HOME_87RB/build/OVERRIDES
-fi
-
-BUCKET=$(aws cloudformation describe-stacks --stack-name $V87RB_STACK_NAME_SOURCE_STORAGE --output json | python -c 'import sys, json; print json.load(sys.stdin)["Stacks"][0]["Outputs"][0]["OutputValue"]')
-
-aws s3 rm --recursive s3://$BUCKET/
+aws s3 rm --recursive s3://$SOURCE_BUCKET_ID/
 
 aws cloudformation delete-stack --stack-name $V87RB_STACK_NAME_SOURCE_STORAGE

@@ -63,7 +63,7 @@ else
         then
             return 0
         else
-            echo "No CloudFormation stack containing an S3 bucket for source storage does not exist or the stack is not ready to use yet."
+            echo "CloudFormation stack containing an S3 bucket for source storage does not exist or the stack is not in a usable state."
             echo "Have you run create-source-bucket.sh?"
             exit -1
         fi
