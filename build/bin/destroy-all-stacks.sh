@@ -1,5 +1,5 @@
 #!/bin/bash
-: ${HOME_87RB:?"You must set the HOME_87RB environment variable before running this script"}
+source set-87rb-env.sh
 
 destroy-storage-bucket.sh
 
