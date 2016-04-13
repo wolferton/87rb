@@ -1,18 +1,13 @@
 #!/bin/bash
-: ${HOME_87RB:?"You must set the HOME_87RB environment variable before running this script"}
-: ${1:?"You provide the unique name of the deployment to destroy"}
+#Performs basic connectivity tests against a deployment of 87Rb
 
-source $HOME_87RB/build/DEFAULTS
+USAGE="Usage: $( basename $0 ) deployment-id"
+[ -z "$1" ] && echo $USAGE && exit 1
 
-if [ -f $HOME_87RB/build/OVERRIDES ]
-then
-	source $HOME_87RB/build/OVERRIDES
-fi
+source set-87rb-env.sh
 
-DEPLOYMENT_NAME=$1
-AWS_SAFE_VERSION=${V87RB_VERSION//./-}
-
-STACK_NAME=$V87RB_STACK_NAME_APPLICATION-$DEPLOYMENT_NAME-$AWS_SAFE_VERSION
+DEPLOYMENT_ID=$1
+STACK_NAME=$( 87rbStackName $DEPLOYMENT_ID )
 
 echo "Smoke testing $STACK_NAME"
 
@@ -22,4 +17,6 @@ API_URI=$(stack-output-value.sh $STACK_NAME ApiUri)
 
 echo "Checking API on $API_URI"
 curl $API_URI/health-check
+
+
 
