@@ -13,6 +13,8 @@ checkSecurityGroupStackReady $DEPLOYMENT_ID
 
 SECURITY_GROUP_STACK=$( securityGroupStackName $1 )
 API_SG_ID=$(stack-output-value.sh $SECURITY_GROUP_STACK ApiSecurityGroupId)
+UI_SG_ID=$(stack-output-value.sh $SECURITY_GROUP_STACK UiSecurityGroupId)
+
 
 #All deployments share a single bucket for build artifacts
 checkSourceBucketStackReady
@@ -26,7 +28,8 @@ STACK_NAME=$( 87rbStackName $DEPLOYMENT_ID )
 #Parameters to pass to CloudFormation
 STACK_PARAMETERS="ParameterKey=ApiHttpPort,ParameterValue=$V87RB_API_PORT ParameterKey=SourceStorageS3BucketUri,ParameterValue=$SOURCE_BUCKET_URI \
 ParameterKey=SourceStorageS3BucketId,ParameterValue=$SOURCE_BUCKET_ID ParameterKey=87RbVersion,ParameterValue=$V87RB_VERSION \
-ParameterKey=ApiSecurityGroupId,ParameterValue=$API_SG_ID  ParameterKey=PublicUiPort,ParameterValue=$V87RB_PUBLIC_UI_PORT"
+ParameterKey=UiSecurityGroupId,ParameterValue=$UI_SG_ID ParameterKey=ApiSecurityGroupId,ParameterValue=$API_SG_ID  \
+ParameterKey=PublicUiPort,ParameterValue=$V87RB_PUBLIC_UI_PORT"
 
 
 #If an OVERRIDES variable exist specifiying the AWS keypair to use for admin, use it
