@@ -22,8 +22,6 @@ func (pjh *PostJobHandler) SetApplicationLogger(logger logger.Logger) {
 
 func (pjh *PostJobHandler) ServeHTTP(w http.ResponseWriter, req *http.Request) {
 
-	w.Write([]byte("{\"id\":0}"))
-
 	var parsed map[string]interface{}
 
 	json.NewDecoder(req.Body).Decode(&parsed)
@@ -31,4 +29,7 @@ func (pjh *PostJobHandler) ServeHTTP(w http.ResponseWriter, req *http.Request) {
 	pjh.logger.LogDebug(parsed["name"].(string))
 
 	pjh.JobDao.CreateJob()
+
+	w.Write([]byte("{\"id\":0}"))
+
 }

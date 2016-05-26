@@ -22,7 +22,7 @@
 
     "jobDao":{
       "type": "dao.JobDao",
-      "connectionString": "test"
+      "ConnectionString": "conf:database.core.connectionString"
     },
 
     "healthCheckEndpoint": {

@@ -3,3 +3,5 @@ OVERRIDES
 *.iml
 bindings*
 local
+/87rb-ui/87rb-ui
+/87rb-api/87rb-api
