@@ -12,7 +12,7 @@ mkdir -p $INSTALL_HOME
 mv $DEPS_DIR/quilt.tar.gz $INSTALL_HOME/../
 (cd $INSTALL_HOME/.. && tar -xzf quilt.tar.gz && rm -f quilt.tar.gz)
 export QUILT_HOME=$INSTALL_HOME/../quilt
-(cd $QUILT_HOME && go install)
+(cd $QUILT_HOME/cmd/quilt-bindings && go install)
 
 GO_LIB_DIR=$INSTALL_HOME/../../lib
 mkdir $GO_LIB_DIR
@@ -27,7 +27,7 @@ do
     cp $ARCHIVE $INSTALL_HOME/
     (cd $INSTALL_HOME && tar -xzf $FILE)
     mv $SRC_HOME/../tmp/$COMPONENT-parameters.json $INSTALL_HOME/$COMPONENT/conf/parameters.json
-    (cd $INSTALL_HOME/$COMPONENT && quilt bind && go install)
+    (cd $INSTALL_HOME/$COMPONENT && quilt-bindings && go install)
     rm $INSTALL_HOME/$FILE
 done
 

@@ -8,12 +8,12 @@ import (
 )
 
 type PostJobHandler struct {
-	logger logger.Logger
-	JobDao *dao.JobDao
+	QuiltApplicationLogger logger.Logger
+	JobDao                 *dao.JobDao
 }
 
 func (pjh *PostJobHandler) SetApplicationLogger(logger logger.Logger) {
-	pjh.logger = logger
+	pjh.QuiltApplicationLogger = logger
 }
 
 /*func (pjh *PostJobHandler) SetJobDao(jobDao dao.JobDao) {
@@ -26,7 +26,7 @@ func (pjh *PostJobHandler) ServeHTTP(w http.ResponseWriter, req *http.Request) {
 
 	json.NewDecoder(req.Body).Decode(&parsed)
 
-	pjh.logger.LogDebug(parsed["name"].(string))
+	pjh.QuiltApplicationLogger.LogDebug(parsed["name"].(string))
 
 	pjh.JobDao.CreateJob()
 

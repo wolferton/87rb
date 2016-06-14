@@ -6,14 +6,16 @@ import (
 )
 
 type GetHealthCheckHandler struct {
-	logger logger.Logger
+	QuiltApplicationLogger logger.Logger
 }
 
 func (ghch *GetHealthCheckHandler) SetApplicationLogger(logger logger.Logger) {
-	ghch.logger = logger
+	ghch.QuiltApplicationLogger = logger
 }
 
 func (ghch *GetHealthCheckHandler) ServeHTTP(w http.ResponseWriter, req *http.Request) {
+
+	ghch.QuiltApplicationLogger.LogInfo("Healthcheck")
 
 	w.Write([]byte("{\"status\":\"OK\"}"))
 }

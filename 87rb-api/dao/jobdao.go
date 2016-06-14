@@ -7,24 +7,24 @@ import (
 )
 
 type JobDao struct {
-	logger logger.Logger
 	ConnectionString string
+	QuiltApplicationLogger logger.Logger
 }
 
 func (jd *JobDao) CreateJob() {
 	db, err := sql.Open("postgres", jd.ConnectionString)
 
 	if err != nil {
-		jd.logger.LogError(err.Error())
+		jd.QuiltApplicationLogger.LogError(err.Error())
 	}
 
 	err = db.Ping()
 
 	if err != nil {
-		jd.logger.LogError(err.Error())
+		jd.QuiltApplicationLogger.LogError(err.Error())
 	}
 }
 
 func (jd *JobDao) SetApplicationLogger(logger logger.Logger) {
-	jd.logger = logger
+	jd.QuiltApplicationLogger = logger
 }
