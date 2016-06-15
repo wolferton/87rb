@@ -1,8 +1,13 @@
 {
   "facilities":{
-    "frameworkLogger":{
-      "defaultLogLevel": "INFO"
+    "queryManager":{
+      "enabled": true
     },
+
+    "frameworkLogger":{
+      "defaultLogLevel": "DEBUG"
+    },
+
     "applicationLogger":{
       "defaultLogLevel": "INFO",
       "componentLogLevels": {
