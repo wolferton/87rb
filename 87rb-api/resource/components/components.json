@@ -20,8 +20,18 @@
       "JobDao": "ref:jobDao"
     },
 
-    "jobDao":{
+    "coreDatabase": {
+      "type": "dao.PostgreSQLCoreDatabaseProvider",
+      "ConnectionString": "conf:database.core.connectionString"
+    },
+
+    "jobDao": {
       "type": "dao.JobDao",
+      "Accessor": "ref:quiltDatabaseAccessor"
+    },
+
+    "databaseProvider":{
+      "type": "dao.PostgreSQLCoreDatabaseProvider",
       "ConnectionString": "conf:database.core.connectionString"
     },
 

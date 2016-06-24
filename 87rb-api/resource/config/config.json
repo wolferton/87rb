@@ -4,8 +4,16 @@
       "enabled": true
     },
 
+    "httpServer":{
+      "enabled": true
+    },
+
+    "databaseAccessor":{
+      "enabled": true
+    },
+
     "frameworkLogger":{
-      "defaultLogLevel": "DEBUG"
+      "defaultLogLevel": "TRACE"
     },
 
     "applicationLogger":{
