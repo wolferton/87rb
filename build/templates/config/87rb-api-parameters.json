@@ -6,7 +6,7 @@
   },
   "database":{
     "core":{
-      "connectionString": "{{CoreDbConnectionString}}"
+      "connectionString": "user={{CoreDbUser}} dbname={{CoreDb}} host={{CoreDbHost}} password={{CoreDbPassword}}"
     }
   }
 }

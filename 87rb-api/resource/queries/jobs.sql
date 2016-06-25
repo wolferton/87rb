@@ -1,9 +1,16 @@
-ID:JOBS_SELECT_ALL
+ID:JOBS_INSERT
 
-SELECT
-    id
-FROM
-    jobs
-WHERE
-    ID = ${1} AND V = ${2}
+INSERT INTO jobs.job (
+    ref,
+    created_on
+    created_by,
+    updated_by,
+    updated_on
+) VALUES (
+    '${ref}',
+    NOW(),
+    '${userId}',
+    NOW(),
+    '${userId}'
+)
 

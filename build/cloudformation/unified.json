@@ -206,7 +206,11 @@
 								"source": {"Fn::Join" : [ "", [ {"Ref": "SourceStorageS3BucketUri"}, "/", {"Ref": "87RbVersion"}, "/config/87rb-api-parameters.json" ] ]},
 								"authentication" : "SourceBucketS3AccessCreds",
 								"context": {
-									"HttpPort": {"Ref": "ApiHttpPort"}
+									"HttpPort": {"Ref": "ApiHttpPort"},
+                                    "CoreDbUser": {"Ref": "CoreDbApiUser"},
+                                    "CoreDb": {"Ref": "CoreDatabaseName"},
+                                    "CoreDbHost": "localhost",
+                                    "CoreDbPassword": {"Ref": "CoreDbApiPassword"}
 								}
 							},
 							"/home/87rb/tmp/87rb-ui-parameters.json": {

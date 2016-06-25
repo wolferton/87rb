@@ -1,3 +1,11 @@
+DROP TABLE IF EXISTS jobs.job;
+DROP TABLE IF EXISTS auth.actor;
+DROP TABLE IF EXISTS admin.schema_version;
+
+DROP SCHEMA IF EXISTS auth;
+DROP SCHEMA IF EXISTS jobs;
+DROP SCHEMA IF EXISTS admin;
+
 CREATE SCHEMA admin;
 CREATE SCHEMA jobs;
 CREATE SCHEMA auth;
@@ -32,6 +40,7 @@ VALUES
 --Jobs schema: operational/transactional data
 CREATE TABLE jobs.job (
     id SERIAL PRIMARY KEY,
+    ref VARCHAR(32) NOT NULL,
     created_by INTEGER REFERENCES auth.actor(id) NOT NULL,
     created_on TIMESTAMP WITH TIME ZONE NOT NULL DEFAULT NOW(),
     updated_by INTEGER REFERENCES auth.actor(id) NOT NULL,
