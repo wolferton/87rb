@@ -26,9 +26,12 @@ func (pjh *PostJobHandler) ServeHTTP(w http.ResponseWriter, req *http.Request) {
 
 	json.NewDecoder(req.Body).Decode(&parsed)
 
-	pjh.QuiltApplicationLogger.LogDebug(parsed["name"].(string))
+	jobRef := parsed["ref"].(string)
 
-	pjh.JobDao.CreateJob()
+	pjh.QuiltApplicationLogger.LogInfo(jobRef)
+
+
+	pjh.JobDao.CreateJob(jobRef)
 
 	w.Write([]byte("{\"id\":0}"))
 
