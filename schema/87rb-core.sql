@@ -40,9 +40,13 @@ VALUES
 --Jobs schema: operational/transactional data
 CREATE TABLE jobs.job (
     id SERIAL PRIMARY KEY,
-    ref VARCHAR(32) NOT NULL,
+    ref VARCHAR(32) NOT NULL UNIQUE,
     created_by INTEGER REFERENCES auth.actor(id) NOT NULL,
     created_on TIMESTAMP WITH TIME ZONE NOT NULL DEFAULT NOW(),
     updated_by INTEGER REFERENCES auth.actor(id) NOT NULL,
     updated_on TIMESTAMP WITH TIME ZONE NOT NULL DEFAULT NOW()
 );
+
+GRANT USAGE ON SCHEMA jobs TO api87rb;
+GRANT INSERT ON TABLE jobs.job TO api87rb;
+GRANT USAGE, SELECT ON SEQUENCE jobs.job_id_seq TO api87rb;
