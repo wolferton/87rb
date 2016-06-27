@@ -1,6 +1,11 @@
 {
-  "packages": [],
+  "packages": [
+    "github.com/wolferton/87rb/87rb-trigger/dao"
+  ],
   "components": {
-
+    "databaseProvider": {
+      "type": "dao.PostgreSQLCoreDatabaseProvider",
+      "ConnectionString": "conf:database.core.connectionString"
+    }
   }
 }

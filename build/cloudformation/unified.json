@@ -14,6 +14,13 @@
 			"Type": "Number"
 		},
 
+		"TriggerHttpPort": {
+			"Description": "Port on which the Trigger component will listen for requests",
+			"Type": "Number",
+			"Default": "8099"
+		},
+
+
 		"PublicUiPort": {
 			"Description": "Port on which the UI will be available externally",
 			"Type": "Number"
@@ -46,6 +53,18 @@
 	      	"Type": "String",
 	      	"Default": "vedfv8LAA221"
 	    },
+
+		"CoreDbTriggerUser": {
+			"Description": "Name of the PostgreSQL user for the Trigger component",
+			"Type": "String",
+			"Default": "trigger87Rb"
+		},
+
+		"CoreDbTriggerPassword": {
+			"Description": "Password for the PostgreSQL user for the Trigger component",
+			"Type": "String",
+			"Default": "sdvdsUA8kqq"
+		},
 
 	    "CoreDbAdminPassword": {
 	   		"Description": "Adminstrator (not root) password for the core PostgreSQL database",
@@ -206,11 +225,11 @@
 								"source": {"Fn::Join" : [ "", [ {"Ref": "SourceStorageS3BucketUri"}, "/", {"Ref": "87RbVersion"}, "/config/87rb-api-parameters.json" ] ]},
 								"authentication" : "SourceBucketS3AccessCreds",
 								"context": {
-									"HttpPort": {"Ref": "ApiHttpPort"},
-                                    "CoreDbUser": {"Ref": "CoreDbApiUser"},
+									"ApiHttpPort": {"Ref": "ApiHttpPort"},
+                                    "CoreDbApiUser": {"Ref": "CoreDbApiUser"},
                                     "CoreDb": {"Ref": "CoreDatabaseName"},
                                     "CoreDbHost": "localhost",
-                                    "CoreDbPassword": {"Ref": "CoreDbApiPassword"}
+                                    "CoreDbApiPassword": {"Ref": "CoreDbApiPassword"}
 								}
 							},
 							"/home/87rb/tmp/87rb-ui-parameters.json": {
@@ -223,7 +242,14 @@
 								"owner": "87rb",
 								"group": "87rb",
 								"source": {"Fn::Join" : [ "", [ {"Ref": "SourceStorageS3BucketUri"}, "/", {"Ref": "87RbVersion"}, "/config/87rb-trigger-parameters.json" ] ]},
-								"authentication" : "SourceBucketS3AccessCreds"
+								"authentication" : "SourceBucketS3AccessCreds",
+								"context": {
+									"TriggerHttpPort": {"Ref": "TriggerHttpPort"},
+									"CoreDbTriggerUser": {"Ref": "CoreDbTriggerUser"},
+									"CoreDb": {"Ref": "CoreDatabaseName"},
+									"CoreDbHost": "localhost",
+									"CoreDbTriggerPassword": {"Ref": "CoreDbTriggerPassword"}
+								}
 							},
 							"/home/87rb/tmp/lighttpd.conf": {
 								"owner": "87rb",
@@ -317,6 +343,8 @@
 									"DbAdminPassword": { "Ref": "CoreDbAdminPassword"},
 									"DbApiUser":  { "Ref": "CoreDbApiUser"},
 									"DbApiPassword": { "Ref": "CoreDbApiPassword"},
+									"DbTriggerUser":  { "Ref": "CoreDbTriggerUser"},
+									"DbTriggerPassword": { "Ref": "CoreDbTriggerPassword"},
 									"DatabaseName": { "Ref": "CoreDatabaseName"},
 									"SchemaFile": {"Fn::Join" : [ "", [ {"Ref": "87RbHomeFolder"}, "/schema/87rb-core.sql"] ]}
 								}

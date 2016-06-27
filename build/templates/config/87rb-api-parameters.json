@@ -1,12 +1,12 @@
 {
   "facilities":{
     "httpServer":{
-      "listenPort": {{HttpPort}}
+      "listenPort": {{ApiHttpPort}}
     }
   },
   "database":{
     "core":{
-      "connectionString": "user={{CoreDbUser}} dbname={{CoreDb}} host={{CoreDbHost}} password={{CoreDbPassword}}"
+      "connectionString": "user={{CoreDbApiUser}} dbname={{CoreDb}} host={{CoreDbHost}} password={{CoreDbApiPassword}}"
     }
   }
 }

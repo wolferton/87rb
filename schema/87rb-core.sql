@@ -50,3 +50,6 @@ CREATE TABLE jobs.job (
 GRANT USAGE ON SCHEMA jobs TO api87rb;
 GRANT INSERT ON TABLE jobs.job TO api87rb;
 GRANT USAGE, SELECT ON SEQUENCE jobs.job_id_seq TO api87rb;
+
+GRANT USAGE ON SCHEMA jobs TO trigger87rb;
+GRANT SELECT ON TABLE jobs.job TO trigger87rb;

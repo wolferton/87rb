@@ -1,7 +1,19 @@
 {
   "facilities":{
+    "queryManager":{
+      "enabled": true
+    },
+
     "httpServer":{
-      "listenPort": 8090
+      "enabled": true
+    },
+
+    "databaseAccessor":{
+      "enabled": true
+    },
+
+    "frameworkLogger":{
+      "defaultLogLevel": "TRACE"
     }
   }
 }
