@@ -38,6 +38,20 @@
       "Handler": "ref:getHealthCheckHandler"
     },
 
+    "healthCheckProvider": {
+      "type": "httpserver.JsonHandler",
+      "HttpMethod": "GET",
+      "PathMatchPattern": "/health-check",
+      "Logic": "ref:healthCheckLogic",
+      "ResponseWriter": "ref:quiltJsonResponseWriter",
+      "ErrorResponseWriter": "ref:quiltJsonErrorResponseWriter",
+      "Unmarshaller": "ref:quiltJsonUnmarshaller"
+    },
+
+    "healthCheckLogic": {
+      "type": "endpoint.GetHealthCheckLogic"
+    },
+
     "getHealthCheckHandler":{
       "type": "endpoint.GetHealthCheckHandler"
     }
