@@ -6,36 +6,28 @@
   ],
 
   "components": {
-
-    "jobEndpoint":{
-      "type": "httpserver.HttpEndPoint",
-      "MethodPatterns": {
-        "POST": "/job"
-      },
-      "Handler": "ref:postJobHandler"
-    },
-
-    "postJobHandler":{
-      "type": "endpoint.PostJobHandler",
-      "JobDao": "ref:jobDao"
-    },
-
     "jobDao": {
       "type": "dao.JobDao",
       "Accessor": "ref:quiltDatabaseAccessor"
     },
-
-    "databaseProvider":{
+    "databaseProvider": {
       "type": "dao.PostgreSQLCoreDatabaseProvider",
       "ConnectionString": "conf:database.core.connectionString"
     },
 
-    "healthCheckEndpoint": {
-      "type": "httpserver.HttpEndPoint",
-      "MethodPatterns": {
-        "GET": "/health-check"
-      },
-      "Handler": "ref:getHealthCheckHandler"
+    "postJobProvider": {
+      "type": "httpserver.JsonHandler",
+      "HttpMethod": "POST",
+      "PathMatchPattern": "/job",
+      "Logic": "ref:postJobLogic",
+      "ResponseWriter": "ref:quiltJsonResponseWriter",
+      "ErrorResponseWriter": "ref:quiltJsonErrorResponseWriter",
+      "Unmarshaller": "ref:quiltJsonUnmarshaller"
+    },
+
+    "postJobLogic": {
+      "type": "endpoint.PostJobLogic",
+      "JobDao": "ref:jobDao"
     },
 
     "healthCheckProvider": {
@@ -47,13 +39,8 @@
       "ErrorResponseWriter": "ref:quiltJsonErrorResponseWriter",
       "Unmarshaller": "ref:quiltJsonUnmarshaller"
     },
-
     "healthCheckLogic": {
       "type": "endpoint.GetHealthCheckLogic"
-    },
-
-    "getHealthCheckHandler":{
-      "type": "endpoint.GetHealthCheckHandler"
     }
   }
 }

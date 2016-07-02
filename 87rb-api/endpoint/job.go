@@ -1,38 +1,47 @@
 package endpoint
 
 import (
-	"net/http"
 	"github.com/wolferton/quilt/facility/logger"
 	"github.com/wolferton/87rb/87rb-api/dao"
-	"encoding/json"
+	"github.com/wolferton/quilt/facility/httpserver"
 )
 
-type PostJobHandler struct {
+type PostJobLogic struct {
 	QuiltApplicationLogger logger.Logger
 	JobDao                 *dao.JobDao
 }
 
-func (pjh *PostJobHandler) SetApplicationLogger(logger logger.Logger) {
-	pjh.QuiltApplicationLogger = logger
+
+func (pjl *PostJobLogic) Validate(errors *httpserver.ServiceErrors, request *httpserver.JsonRequest) {
 }
 
-/*func (pjh *PostJobHandler) SetJobDao(jobDao dao.JobDao) {
-	pjh.jobDao = jobDao
-}*/
-
-func (pjh *PostJobHandler) ServeHTTP(w http.ResponseWriter, req *http.Request) {
-
-	var parsed map[string]interface{}
-
-	json.NewDecoder(req.Body).Decode(&parsed)
-
-	jobRef := parsed["ref"].(string)
-
-	pjh.QuiltApplicationLogger.LogInfo(jobRef)
+func (pjl *PostJobLogic) Process(request *httpserver.JsonRequest) *httpserver.JsonResponse {
 
 
-	pjh.JobDao.CreateJob(jobRef)
+	job := request.RequestBody.(*PostJob)
 
-	w.Write([]byte("{\"id\":0}"))
+	pjl.JobDao.CreateJob(job.Ref)
 
+
+	response := httpserver.NewJsonResponse()
+
+	result := new(PostJobResult)
+	result.Id = 0
+
+	response.Body = result
+
+
+	return response
+}
+
+func (pjl *PostJobLogic) UnmarshallTarget() interface{} {
+	return new(PostJob)
+}
+
+type PostJob struct {
+	Ref string
+}
+
+type PostJobResult struct {
+	Id int
 }
