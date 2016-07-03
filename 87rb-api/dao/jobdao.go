@@ -11,7 +11,7 @@ type JobDao struct {
 	Accessor *rdbms.DatabaseAccessor
 }
 
-func (jd *JobDao) CreateJob(jobRef string) {
+func (jd *JobDao) CreateJob(jobRef string) error {
 
 	params := make(map[string]interface{}, 2)
 
@@ -20,8 +20,23 @@ func (jd *JobDao) CreateJob(jobRef string) {
 
 	_, err := jd.Accessor.InsertQueryIdParamMap("JOBS_INSERT", params)
 
-	if(err != nil) {
-		jd.QuiltApplicationLogger.LogError(err.Error())
+	return err
+
+}
+
+
+func (jd *JobDao) JobExists(jobRef string) (bool, error) {
+
+	params := make(map[string]interface{}, 1)
+	params["ref"] = jobRef
+
+	rows, err := jd.Accessor.SelectQueryIdParamMap("JOB_ID_FROM_REF", params)
+
+	if err != nil {
+		return true, err
 	}
 
+	defer rows.Close()
+
+	return rows.Next(), nil
 }

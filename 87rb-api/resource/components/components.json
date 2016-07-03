@@ -22,7 +22,8 @@
       "Logic": "ref:postJobLogic",
       "ResponseWriter": "ref:quiltJsonResponseWriter",
       "ErrorResponseWriter": "ref:quiltJsonErrorResponseWriter",
-      "Unmarshaller": "ref:quiltJsonUnmarshaller"
+      "Unmarshaller": "ref:quiltJsonUnmarshaller",
+      "StatusDeterminer": "ref:quiltHttpStatusDeterminer"
     },
 
     "postJobLogic": {
@@ -37,7 +38,8 @@
       "Logic": "ref:healthCheckLogic",
       "ResponseWriter": "ref:quiltJsonResponseWriter",
       "ErrorResponseWriter": "ref:quiltJsonErrorResponseWriter",
-      "Unmarshaller": "ref:quiltJsonUnmarshaller"
+      "Unmarshaller": "ref:quiltJsonUnmarshaller",
+      "StatusDeterminer": "ref:quiltHttpStatusDeterminer"
     },
     "healthCheckLogic": {
       "type": "endpoint.GetHealthCheckLogic"

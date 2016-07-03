@@ -10,9 +10,6 @@ type GetHealthCheckLogic struct {
 	QuiltApplicationLogger logger.Logger
 }
 
-func (ghcl *GetHealthCheckLogic) Validate(errors *httpserver.ServiceErrors, request *httpserver.JsonRequest) {
-}
-
 func (ghcl *GetHealthCheckLogic) Process(request *httpserver.JsonRequest) *httpserver.JsonResponse {
 
 	response := httpserver.NewJsonResponse()

@@ -13,12 +13,28 @@ type PostJobLogic struct {
 
 
 func (pjl *PostJobLogic) Validate(errors *httpserver.ServiceErrors, request *httpserver.JsonRequest) {
+	job := request.RequestBody.(*PostJob)
+	dao := pjl.JobDao
+
+	exists, err := dao.JobExists(job.Ref)
+
+	if err != nil {
+		pjl.QuiltApplicationLogger.LogErrorf("Problem checking to see if job with reference %s, already exists: %s", job.Ref, err)
+		errors.AddError(httpserver.Unexpected, "DB", "Unable to check whether job already exists")
+
+	} else if exists {
+		errors.AddError(httpserver.Logic, "JOB001", "Job already exists with that reference")
+	}
+
+
 }
 
 func (pjl *PostJobLogic) Process(request *httpserver.JsonRequest) *httpserver.JsonResponse {
 
 
 	job := request.RequestBody.(*PostJob)
+
+	pjl.QuiltApplicationLogger.LogInfof("%b %d", job.Schedule.AllowOverlap, job.Schedule.FixedInterval)
 
 	pjl.JobDao.CreateJob(job.Ref)
 
@@ -40,6 +56,12 @@ func (pjl *PostJobLogic) UnmarshallTarget() interface{} {
 
 type PostJob struct {
 	Ref string
+	Schedule *PostSchedule
+}
+
+type PostSchedule struct {
+	FixedInterval int
+	AllowOverlap bool
 }
 
 type PostJobResult struct {

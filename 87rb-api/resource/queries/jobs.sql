@@ -14,3 +14,11 @@ INSERT INTO jobs.job (
     ${userId}
 )
 
+ID:JOB_ID_FROM_REF
+
+SELECT
+    id
+FROM
+    jobs.job
+WHERE
+    ref = '${ref}'
