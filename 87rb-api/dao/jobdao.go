@@ -3,6 +3,7 @@ package dao
 import (
 	"github.com/wolferton/quilt/facility/rdbms"
 	"github.com/wolferton/quilt/facility/logger"
+	"github.com/wolferton/87rb/87rb-api/dto"
 )
 
 const apiUserId  = 70
@@ -15,13 +16,14 @@ type JobDao struct {
 	Accessor *rdbms.DatabaseAccessor
 }
 
-func (jd *JobDao) CreateJob(jobRef string) error {
+func (jd *JobDao) CreateJob(job *dto.PostJob) error {
 
 	params := make(map[string]interface{}, 2)
 
-	params["ref"] = jobRef
-	params["userId"] = 70
+	params["ref"] = job.Ref
+	params["userId"] = apiUserId
 	params["scheduleType"] = PeriodicSchedule
+	params["overlap"] = job.Overlap
 
 
 	id, err := jd.Accessor.InsertQueryIdParamMapReturnedId("SCHEDULE_INSERT", params)

@@ -1,5 +1,5 @@
-DROP TABLE IF EXISTS jobs.schedule;
 DROP TABLE IF EXISTS jobs.job;
+DROP TABLE IF EXISTS jobs.schedule;
 DROP TABLE IF EXISTS auth.actor;
 DROP TABLE IF EXISTS admin.schema_version;
 
@@ -8,6 +8,7 @@ DROP SCHEMA IF EXISTS jobs;
 DROP SCHEMA IF EXISTS admin;
 
 DROP TYPE IF EXISTS schedule;
+DROP TYPE IF EXISTS overlap_mode;
 
 CREATE SCHEMA admin;
 CREATE SCHEMA jobs;
@@ -52,9 +53,12 @@ CREATE TABLE jobs.schedule (
     updated_on TIMESTAMP WITH TIME ZONE NOT NULL DEFAULT NOW()
 );
 
+CREATE TYPE overlap_mode AS ENUM ('NEVER', 'ALWAYS', 'BY_TARGET');
+
 CREATE TABLE jobs.job (
     id SERIAL PRIMARY KEY,
     schedule_id INTEGER REFERENCES jobs.schedule(id) NOT NULL,
+    overlap overlap_mode NOT NULL,
     ref VARCHAR(32) NOT NULL UNIQUE,
     created_by INTEGER REFERENCES auth.actor(id) NOT NULL,
     created_on TIMESTAMP WITH TIME ZONE NOT NULL DEFAULT NOW(),

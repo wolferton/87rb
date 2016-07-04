@@ -3,6 +3,7 @@ ID:JOBS_INSERT
 INSERT INTO jobs.job (
     ref,
     schedule_id,
+    overlap,
     created_on,
     created_by,
     updated_on,
@@ -10,6 +11,7 @@ INSERT INTO jobs.job (
 ) VALUES (
     '${ref}',
     ${scheduleId},
+    '${overlap}',
     NOW(),
     ${userId},
     NOW(),
