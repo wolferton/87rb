@@ -8,5 +8,8 @@
     "core":{
       "connectionString": "user={{CoreDbApiUser}} dbname={{CoreDb}} host={{CoreDbHost}} password={{CoreDbApiPassword}}"
     }
+  },
+  "trigger":{
+    "lifecycleUri": "http://{{TriggerHost}}:{{TriggerHttpPort}}/job-lifecycle"
   }
 }

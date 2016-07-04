@@ -4,11 +4,13 @@ import (
 	"github.com/wolferton/quilt/facility/logger"
 	"github.com/wolferton/87rb/87rb-api/dao"
 	"github.com/wolferton/quilt/ws"
+	"github.com/wolferton/87rb/87rb-api/trigger"
 )
 
 type PostJobLogic struct {
 	QuiltApplicationLogger logger.Logger
 	JobDao                 *dao.JobDao
+	TriggerNotifier trigger.TriggerNotifier
 }
 
 
@@ -34,6 +36,7 @@ func (pjl *PostJobLogic) Process(request *ws.WsRequest, response *ws.WsResponse)
 	job := request.RequestBody.(*PostJob)
 
 	pjl.JobDao.CreateJob(job.Ref)
+	go pjl.TriggerNotifier.Notify(job.Ref, trigger.NewJob)
 
 	result := new(PostJobResult)
 	result.Id = 0

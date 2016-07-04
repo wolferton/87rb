@@ -4,6 +4,7 @@
     "github.com/wolferton/87rb/87rb-trigger/endpoint",
     "github.com/wolferton/quilt/ws"
   ],
+
   "components": {
     "databaseProvider": {
       "type": "dao.PostgreSQLCoreDatabaseProvider",
