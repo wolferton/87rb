@@ -35,7 +35,12 @@ func (pjl *PostJobLogic) Process(request *ws.WsRequest, response *ws.WsResponse)
 
 	job := request.RequestBody.(*PostJob)
 
-	pjl.JobDao.CreateJob(job.Ref)
+	err := pjl.JobDao.CreateJob(job.Ref)
+
+	if err != nil {
+		pjl.QuiltApplicationLogger.LogErrorf("Problem creating new Job %s ", err)
+	}
+
 	go pjl.TriggerNotifier.Notify(job.Ref, trigger.NewJob)
 
 	result := new(PostJobResult)

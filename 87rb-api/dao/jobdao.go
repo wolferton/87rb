@@ -5,6 +5,10 @@ import (
 	"github.com/wolferton/quilt/facility/logger"
 )
 
+const apiUserId  = 70
+const PeriodicSchedule = "PERIODIC"
+
+
 type JobDao struct {
 	ConnectionString string
 	QuiltApplicationLogger logger.Logger
@@ -17,8 +21,18 @@ func (jd *JobDao) CreateJob(jobRef string) error {
 
 	params["ref"] = jobRef
 	params["userId"] = 70
+	params["scheduleType"] = PeriodicSchedule
 
-	_, err := jd.Accessor.InsertQueryIdParamMap("JOBS_INSERT", params)
+
+	id, err := jd.Accessor.InsertQueryIdParamMapReturnedId("SCHEDULE_INSERT", params)
+
+	if err != nil {
+		return err
+	}
+
+	params["scheduleId"] = id
+
+	_, err = jd.Accessor.InsertQueryIdParamMap("JOBS_INSERT", params)
 
 	return err
 
