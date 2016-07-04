@@ -29,25 +29,17 @@ func (pjl *PostJobLogic) Validate(errors *ws.ServiceErrors, request *ws.WsReques
 
 }
 
-func (pjl *PostJobLogic) Process(request *ws.WsRequest) *ws.WsResponse {
-
+func (pjl *PostJobLogic) Process(request *ws.WsRequest, response *ws.WsResponse){
 
 	job := request.RequestBody.(*PostJob)
 
-	pjl.QuiltApplicationLogger.LogInfof("%b %d", job.Schedule.AllowOverlap, job.Schedule.FixedInterval)
-
 	pjl.JobDao.CreateJob(job.Ref)
-
-
-	response := ws.NewWsResponse()
 
 	result := new(PostJobResult)
 	result.Id = 0
 
 	response.Body = result
 
-
-	return response
 }
 
 func (pjl *PostJobLogic) UnmarshallTarget() interface{} {

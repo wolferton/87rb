@@ -10,17 +10,12 @@ type GetHealthCheckLogic struct {
 	QuiltApplicationLogger logger.Logger
 }
 
-func (ghcl *GetHealthCheckLogic) Process(request *ws.WsRequest) *ws.WsResponse {
-
-	response := ws.NewWsResponse()
+func (ghcl *GetHealthCheckLogic) Process(request *ws.WsRequest, response *ws.WsResponse){
 
 	status := new(HealthCheckStatus)
 	status.DatabaseConnectivity = true
 
 	response.Body = status
-
-
-	return response
 }
 
 type HealthCheckStatus struct {

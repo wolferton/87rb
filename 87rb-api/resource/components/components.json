@@ -19,11 +19,7 @@
       "type": "ws.WsHandler",
       "HttpMethod": "POST",
       "PathMatchPattern": "/job",
-      "Logic": "ref:postJobLogic",
-      "ResponseWriter": "ref:quiltJsonResponseWriter",
-      "ErrorResponseWriter": "ref:quiltJsonErrorResponseWriter",
-      "Unmarshaller": "ref:quiltJsonUnmarshaller",
-      "StatusDeterminer": "ref:quiltHttpStatusDeterminer"
+      "Logic": "ref:postJobLogic"
     },
 
     "postJobLogic": {
@@ -35,12 +31,9 @@
       "type": "ws.WsHandler",
       "HttpMethod": "GET",
       "PathMatchPattern": "/health-check",
-      "Logic": "ref:healthCheckLogic",
-      "ResponseWriter": "ref:quiltJsonResponseWriter",
-      "ErrorResponseWriter": "ref:quiltJsonErrorResponseWriter",
-      "Unmarshaller": "ref:quiltJsonUnmarshaller",
-      "StatusDeterminer": "ref:quiltHttpStatusDeterminer"
+      "Logic": "ref:healthCheckLogic"
     },
+
     "healthCheckLogic": {
       "type": "endpoint.GetHealthCheckLogic"
     }

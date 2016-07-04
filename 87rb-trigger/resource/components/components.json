@@ -1,11 +1,24 @@
 {
   "packages": [
-    "github.com/wolferton/87rb/87rb-trigger/dao"
+    "github.com/wolferton/87rb/87rb-trigger/dao",
+    "github.com/wolferton/87rb/87rb-trigger/endpoint",
+    "github.com/wolferton/quilt/ws"
   ],
   "components": {
     "databaseProvider": {
       "type": "dao.PostgreSQLCoreDatabaseProvider",
       "ConnectionString": "conf:database.core.connectionString"
+    },
+
+    "postJobLifecycleHandler": {
+      "type": "ws.WsHandler",
+      "HttpMethod": "POST",
+      "PathMatchPattern": "/job-lifecycle",
+      "Logic": "ref:postJobLifecycleLogic"
+    },
+
+    "postJobLifecycleLogic": {
+      "type": "endpoint.PostJobLifecycleLogic"
     }
   }
 }

@@ -8,12 +8,24 @@
       "enabled": true
     },
 
+    "jsonWs":{
+      "enabled": true
+    },
+
     "databaseAccessor":{
       "enabled": true
     },
 
     "frameworkLogger":{
-      "defaultLogLevel": "TRACE"
+      "defaultLogLevel": "DEBUG"
+    },
+
+    "applicationLogger":{
+      "defaultLogLevel": "INFO",
+      "componentLogLevels": {
+        "postJobLifecycleLogic": "TRACE"
+      }
     }
+
   }
 }
