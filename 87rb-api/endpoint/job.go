@@ -3,7 +3,7 @@ package endpoint
 import (
 	"github.com/wolferton/quilt/facility/logger"
 	"github.com/wolferton/87rb/87rb-api/dao"
-	"github.com/wolferton/quilt/facility/httpserver"
+	"github.com/wolferton/quilt/ws"
 )
 
 type PostJobLogic struct {
@@ -12,7 +12,7 @@ type PostJobLogic struct {
 }
 
 
-func (pjl *PostJobLogic) Validate(errors *httpserver.ServiceErrors, request *httpserver.JsonRequest) {
+func (pjl *PostJobLogic) Validate(errors *ws.ServiceErrors, request *ws.WsRequest) {
 	job := request.RequestBody.(*PostJob)
 	dao := pjl.JobDao
 
@@ -20,16 +20,16 @@ func (pjl *PostJobLogic) Validate(errors *httpserver.ServiceErrors, request *htt
 
 	if err != nil {
 		pjl.QuiltApplicationLogger.LogErrorf("Problem checking to see if job with reference %s, already exists: %s", job.Ref, err)
-		errors.AddError(httpserver.Unexpected, "DB", "Unable to check whether job already exists")
+		errors.AddError(ws.Unexpected, "DB", "Unable to check whether job already exists")
 
 	} else if exists {
-		errors.AddError(httpserver.Logic, "JOB001", "Job already exists with that reference")
+		errors.AddError(ws.Logic, "JOB001", "Job already exists with that reference")
 	}
 
 
 }
 
-func (pjl *PostJobLogic) Process(request *httpserver.JsonRequest) *httpserver.JsonResponse {
+func (pjl *PostJobLogic) Process(request *ws.WsRequest) *ws.WsResponse {
 
 
 	job := request.RequestBody.(*PostJob)
@@ -39,7 +39,7 @@ func (pjl *PostJobLogic) Process(request *httpserver.JsonRequest) *httpserver.Js
 	pjl.JobDao.CreateJob(job.Ref)
 
 
-	response := httpserver.NewJsonResponse()
+	response := ws.NewWsResponse()
 
 	result := new(PostJobResult)
 	result.Id = 0

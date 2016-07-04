@@ -2,7 +2,7 @@
   "packages":[
     "github.com/wolferton/87rb/87rb-api/endpoint",
     "github.com/wolferton/87rb/87rb-api/dao",
-    "github.com/wolferton/quilt/facility/httpserver"
+    "github.com/wolferton/quilt/ws"
   ],
 
   "components": {
@@ -16,7 +16,7 @@
     },
 
     "postJobProvider": {
-      "type": "httpserver.JsonHandler",
+      "type": "ws.WsHandler",
       "HttpMethod": "POST",
       "PathMatchPattern": "/job",
       "Logic": "ref:postJobLogic",
@@ -32,7 +32,7 @@
     },
 
     "healthCheckProvider": {
-      "type": "httpserver.JsonHandler",
+      "type": "ws.WsHandler",
       "HttpMethod": "GET",
       "PathMatchPattern": "/health-check",
       "Logic": "ref:healthCheckLogic",
