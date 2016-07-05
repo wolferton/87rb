@@ -12,6 +12,10 @@
       "enabled": true
     },
 
+    "serviceErrorManager":{
+      "enabled": true
+    },
+
 
     "databaseAccessor":{
       "enabled": true
@@ -22,9 +26,8 @@
     },
 
     "applicationLogger":{
-      "defaultLogLevel": "INFO",
+      "defaultLogLevel": "ERROR",
       "componentLogLevels": {
-        "getHealthCheckHandler": "TRACE"
       }
     }
   }

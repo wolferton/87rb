@@ -1,5 +1,8 @@
 {
   "serviceErrors": [
-    ["L", "JOB001", "Job already exists with that reference"]
+    ["L", "JOB001", "Job already exists with that reference."],
+    ["U", "JOB002", "Database error while checking to see if a job with that reference exists."],
+    ["U", "JOB003", "Database error while creating the new job."],
+    ["C", "JOB004", "Job refs must be between 1-32 characters and must not have leading or trailing whitespace"]
   ]
 }

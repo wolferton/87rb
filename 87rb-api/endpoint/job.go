@@ -6,6 +6,15 @@ import (
 	"github.com/wolferton/87rb/87rb-api/dto"
 	"github.com/wolferton/quilt/ws"
 	"github.com/wolferton/87rb/87rb-api/trigger"
+	"strings"
+)
+
+const (
+	jobExists = "JOB001"
+	jobCouldNotCheckExists = "JOB002"
+	jobCouldNotCreateDb = "JOB003"
+	jobInvalidRef = "JOB004"
+	maxJobLength = 32
 )
 
 
@@ -17,6 +26,7 @@ type PostJobLogic struct {
 
 
 func (pjl *PostJobLogic) Validate(errors *ws.ServiceErrors, request *ws.WsRequest) {
+
 	job := request.RequestBody.(*dto.PostJob)
 	dao := pjl.JobDao
 
@@ -24,12 +34,18 @@ func (pjl *PostJobLogic) Validate(errors *ws.ServiceErrors, request *ws.WsReques
 
 	if err != nil {
 		pjl.QuiltApplicationLogger.LogErrorf("Problem checking to see if job with reference %s, already exists: %s", job.Ref, err)
-		errors.AddError(ws.Unexpected, "DB", "Unable to check whether job already exists")
+		errors.AddPredefinedError(jobCouldNotCheckExists)
 
 	} else if exists {
-		errors.AddError(ws.Logic, "JOB001", "Job already exists with that reference")
+		errors.AddPredefinedError(jobExists)
 	}
 
+
+	l := len(job.Ref)
+
+	if  l > maxJobLength || len(strings.TrimSpace(job.Ref)) < l {
+		errors.AddPredefinedError(jobInvalidRef)
+	}
 
 }
 
@@ -41,7 +57,7 @@ func (pjl *PostJobLogic) Process(request *ws.WsRequest, response *ws.WsResponse)
 
 	if err != nil {
 		pjl.QuiltApplicationLogger.LogErrorf("Problem creating new Job %s ", err)
-		response.Errors.AddError(ws.Unexpected, "JOB002", "Unable to store new job in database")
+		response.Errors.AddPredefinedError(jobCouldNotCreateDb)
 	}
 
 	go pjl.TriggerNotifier.Notify(job.Ref, trigger.NewJob)
