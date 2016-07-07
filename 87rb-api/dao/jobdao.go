@@ -35,6 +35,7 @@ func (jd *JobDao) CreateJob(job *dto.PostJob, rc *rdbms.RdbmsClient) error {
 
 	_, err = rc.InsertQueryIdParamMap("JOBS_INSERT", params)
 
+
 	return err
 
 }

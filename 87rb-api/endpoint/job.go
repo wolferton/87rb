@@ -57,12 +57,19 @@ func (pjl *PostJobLogic) Process(request *ws.WsRequest, response *ws.WsResponse)
 	rc := pjl.RdbmsClientManager.Client()
 	job := request.RequestBody.(*dto.PostJob)
 
+	rc.StartTransaction()
+	defer rc.Rollback()
+
 	err := pjl.JobDao.CreateJob(job, rc)
 
 	if err != nil {
 		pjl.QuiltApplicationLogger.LogErrorf("Problem creating new Job %s ", err)
 		response.Errors.AddPredefinedError(jobCouldNotCreateDb)
+
+		return
 	}
+
+	rc.CommitTransaction()
 
 	go pjl.TriggerNotifier.Notify(job.Ref, trigger.NewJob)
 
