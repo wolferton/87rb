@@ -26,6 +26,17 @@
 
     "lifecycleEventListener": {
       "type": "lifecycle.LifecycleEventListener"
+    },
+
+    "healthCheckHandler": {
+      "type": "ws.WsHandler",
+      "HttpMethod": "GET",
+      "PathMatchPattern": "/health-check",
+      "Logic": "ref:healthCheckLogic"
+    },
+
+    "healthCheckLogic": {
+      "type": "endpoint.HealthCheckLogic"
     }
   }
 }

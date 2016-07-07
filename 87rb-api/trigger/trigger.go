@@ -5,6 +5,8 @@ import (
 	"net/http"
 	"github.com/wolferton/quilt/facility/logger"
 	"bytes"
+	"errors"
+	"fmt"
 )
 
 const (
@@ -17,6 +19,7 @@ type TriggerNotifier interface {
 
 type HttpTriggerNotifier struct {
 	TriggerUri string
+	HealthCheckUri string
 	QuiltApplicationLogger logger.Logger
 }
 
@@ -34,6 +37,34 @@ func (htn *HttpTriggerNotifier) Notify(ref string, event string) {
 	} else {
 		resp.Body.Close()
 	}
+}
+
+func (htm *HttpTriggerNotifier) BlockAccess() (bool, error) {
+
+	available, err := htm.triggerAvailable()
+
+	if available {
+		return false, nil
+	} else {
+
+		message := fmt.Sprintf("Unable to contact trigger: %s", err)
+
+		return true, errors.New(message)
+	}
+
+
+}
+
+func (htm *HttpTriggerNotifier) triggerAvailable() (bool, error){
+	resp, err := http.Get(htm.HealthCheckUri)
+
+	if err != nil {
+		return false, err
+	}
+
+
+	return err == nil && resp.StatusCode == http.StatusOK, nil
+
 }
 
 type PostJobLifecycle struct {

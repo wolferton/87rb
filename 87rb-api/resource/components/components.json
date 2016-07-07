@@ -31,7 +31,8 @@
 
     "httpTriggerNotifier": {
       "type": "trigger.HttpTriggerNotifier",
-      "TriggerUri": "conf:trigger.lifecycleUri"
+      "TriggerUri": "conf:trigger.lifecycleUri",
+      "HealthCheckUri": "conf:trigger.healthCheckUri"
     },
 
     "healthCheckProvider": {

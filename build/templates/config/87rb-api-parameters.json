@@ -10,6 +10,7 @@
     }
   },
   "trigger":{
-    "lifecycleUri": "http://{{TriggerHost}}:{{TriggerHttpPort}}/job-lifecycle"
+    "lifecycleUri": "http://{{TriggerHost}}:{{TriggerHttpPort}}/job-lifecycle",
+    "healthCheckUri": "http://{{TriggerHost}}:{{TriggerHttpPort}}/health-check"
   }
 }

@@ -26,7 +26,7 @@
     },
 
     "applicationLogger":{
-      "defaultLogLevel": "ERROR",
+      "defaultLogLevel": "WARN",
       "componentLogLevels": {
       }
     }
