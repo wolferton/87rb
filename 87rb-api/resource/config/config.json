@@ -17,7 +17,7 @@
     },
 
 
-    "databaseAccessor":{
+    "rdbmsAccess":{
       "enabled": true
     },
 

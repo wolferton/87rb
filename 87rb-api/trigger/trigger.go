@@ -31,9 +31,9 @@ func (htn *HttpTriggerNotifier) Notify(ref string, event string) {
 
 	if err != nil {
 		htn.QuiltApplicationLogger.LogErrorf("Unable to send job lifecycle event %s/%s to %s %s", ref, event, htn.TriggerUri, err)
+	} else {
+		resp.Body.Close()
 	}
-
-	defer resp.Body.Close()
 }
 
 type PostJobLifecycle struct {

@@ -13,10 +13,9 @@ const PeriodicSchedule = "PERIODIC"
 type JobDao struct {
 	ConnectionString string
 	QuiltApplicationLogger logger.Logger
-	Accessor *rdbms.DatabaseAccessor
 }
 
-func (jd *JobDao) CreateJob(job *dto.PostJob) error {
+func (jd *JobDao) CreateJob(job *dto.PostJob, rc *rdbms.RdbmsClient) error {
 
 	params := make(map[string]interface{}, 2)
 
@@ -26,7 +25,7 @@ func (jd *JobDao) CreateJob(job *dto.PostJob) error {
 	params["overlap"] = job.Overlap
 
 
-	id, err := jd.Accessor.InsertQueryIdParamMapReturnedId("SCHEDULE_INSERT", params)
+	id, err := rc.InsertQueryIdParamMapReturnedId("SCHEDULE_INSERT", params)
 
 	if err != nil {
 		return err
@@ -34,19 +33,19 @@ func (jd *JobDao) CreateJob(job *dto.PostJob) error {
 
 	params["scheduleId"] = id
 
-	_, err = jd.Accessor.InsertQueryIdParamMap("JOBS_INSERT", params)
+	_, err = rc.InsertQueryIdParamMap("JOBS_INSERT", params)
 
 	return err
 
 }
 
 
-func (jd *JobDao) JobExists(jobRef string) (bool, error) {
+func (jd *JobDao) JobExists(jobRef string, rc *rdbms.RdbmsClient) (bool, error) {
 
 	params := make(map[string]interface{}, 1)
 	params["ref"] = jobRef
 
-	rows, err := jd.Accessor.SelectQueryIdParamMap("JOB_ID_FROM_REF", params)
+	rows, err := rc.SelectQueryIdParamMap("JOB_ID_FROM_REF", params)
 
 	if err != nil {
 		return true, err

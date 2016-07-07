@@ -8,8 +8,7 @@
 
   "components": {
     "jobDao": {
-      "type": "dao.JobDao",
-      "Accessor": "ref:quiltDatabaseAccessor"
+      "type": "dao.JobDao"
     },
     "databaseProvider": {
       "type": "dao.PostgreSQLCoreDatabaseProvider",
@@ -26,7 +25,8 @@
     "postJobLogic": {
       "type": "endpoint.PostJobLogic",
       "JobDao": "ref:jobDao",
-      "TriggerNotifier": "ref:httpTriggerNotifier"
+      "TriggerNotifier": "ref:httpTriggerNotifier",
+      "RdbmsClientManager": "ref:quiltRdbmsClientManager"
     },
 
     "httpTriggerNotifier": {
