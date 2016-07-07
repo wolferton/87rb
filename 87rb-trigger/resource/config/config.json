@@ -21,9 +21,8 @@
     },
 
     "applicationLogger":{
-      "defaultLogLevel": "INFO",
+      "defaultLogLevel": "TRACE",
       "componentLogLevels": {
-        "postJobLifecycleLogic": "TRACE"
       }
     }
 

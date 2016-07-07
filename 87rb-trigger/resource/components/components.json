@@ -1,6 +1,7 @@
 {
   "packages": [
     "github.com/wolferton/87rb/87rb-trigger/dao",
+    "github.com/wolferton/87rb/87rb-trigger/lifecycle",
     "github.com/wolferton/87rb/87rb-trigger/endpoint",
     "github.com/wolferton/quilt/ws"
   ],
@@ -19,7 +20,12 @@
     },
 
     "postJobLifecycleLogic": {
-      "type": "endpoint.PostJobLifecycleLogic"
+      "type": "endpoint.PostJobLifecycleLogic",
+      "EventListener": "ref:lifecycleEventListener"
+    },
+
+    "lifecycleEventListener": {
+      "type": "lifecycle.LifecycleEventListener"
     }
   }
 }
