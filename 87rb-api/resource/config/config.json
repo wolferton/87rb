@@ -5,7 +5,9 @@
     },
 
     "httpServer":{
-      "enabled": true
+      "enabled": true,
+      "EnableAccessLog": true,
+      "AccessLogPath": "/tmp/api-access.log"
     },
 
     "jsonWs":{
