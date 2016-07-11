@@ -7,7 +7,12 @@
     "httpServer":{
       "enabled": true,
       "EnableAccessLog": true,
-      "AccessLogPath": "/tmp/api-access.log"
+      "accessLog": {
+        "enabled": true,
+        "LogPath": "/tmp/api-access.log",
+        "LogLinePreset": "combined"
+      }
+
     },
 
     "jsonWs":{
