@@ -16,18 +16,13 @@
     }
   },
 
+  "FrameworkLogger":{
+    "DefaultLogLevel": "INFO"
+  },
 
-  "facilities":{
-
-
-    "frameworkLogger":{
-      "defaultLogLevel": "INFO"
-    },
-
-    "applicationLogger":{
-      "defaultLogLevel": "WARN",
-      "componentLogLevels": {
-      }
+  "ApplicationLogger":{
+    "DefaultLogLevel": "WARN",
+    "ComponentLogLevels": {
     }
   }
 }

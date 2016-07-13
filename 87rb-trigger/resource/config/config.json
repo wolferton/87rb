@@ -6,16 +6,13 @@
     "RdbmsAccess": true
   },
 
-  "facilities":{
-    "frameworkLogger":{
-      "defaultLogLevel": "INFO"
-    },
+  "FrameworkLogger":{
+    "DefaultLogLevel": "INFO"
+  },
 
-    "applicationLogger":{
-      "defaultLogLevel": "TRACE",
-      "componentLogLevels": {
-      }
+  "ApplicationLogger":{
+    "DefaultLogLevel": "WARN",
+    "ComponentLogLevels": {
     }
-
   }
 }
