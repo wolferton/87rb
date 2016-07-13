@@ -17,7 +17,7 @@ func (pdcp *PostgreSQLCoreDatabaseProvider) Database() (*sql.DB, error) {
 	al := pdcp.QuiltApplicationLogger
 
 	if err != nil {
-		al.LogError(err.Error())
+		al.LogErrorf(err.Error())
 	}
 
 	return db, err

@@ -1,32 +1,24 @@
 {
+  "Facilities":{
+    "QueryManager": true,
+    "HttpServer": true,
+    "JsonWs": true,
+    "ServiceErrorManager": true,
+    "RdbmsAccess": true
+  },
+
+  "HttpServer":{
+    "AccessLogging": true,
+    "AccessLog": {
+      "LogPath": "/tmp/api-access.log",
+      "LogLinePreset": "framework",
+      "UtcTimes": true
+    }
+  },
+
+
   "facilities":{
-    "queryManager":{
-      "enabled": true
-    },
 
-    "httpServer":{
-      "enabled": true,
-      "EnableAccessLog": true,
-      "accessLog": {
-        "enabled": true,
-        "LogPath": "/tmp/api-access.log",
-        "LogLinePreset": "combined"
-      }
-
-    },
-
-    "jsonWs":{
-      "enabled": true
-    },
-
-    "serviceErrorManager":{
-      "enabled": true
-    },
-
-
-    "rdbmsAccess":{
-      "enabled": true
-    },
 
     "frameworkLogger":{
       "defaultLogLevel": "INFO"

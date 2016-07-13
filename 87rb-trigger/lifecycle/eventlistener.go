@@ -48,7 +48,7 @@ func (lel *LifecycleEventListener) Notify(event *EventNotification) {
 
 func (lel *LifecycleEventListener) Listen() {
 	l := lel.QuiltApplicationLogger
-	l.LogDebug("Listening for lifecycle events")
+	l.LogDebugf("Listening for lifecycle events")
 
 	for {
 		event := <- lel.events

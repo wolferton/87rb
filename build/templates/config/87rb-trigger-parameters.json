@@ -1,8 +1,6 @@
 {
-  "facilities":{
-    "httpServer":{
-      "listenPort": {{TriggerHttpPort}}
-    }
+  "HttpServer":{
+    "Port": {{TriggerHttpPort}}
   },
   "database":{
     "core":{

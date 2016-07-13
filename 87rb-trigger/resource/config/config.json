@@ -1,21 +1,12 @@
 {
+  "Facilities":{
+    "QueryManager": true,
+    "HttpServer": true,
+    "JsonWs": true,
+    "RdbmsAccess": true
+  },
+
   "facilities":{
-    "queryManager":{
-      "enabled": true
-    },
-
-    "httpServer":{
-      "enabled": true
-    },
-
-    "jsonWs":{
-      "enabled": true
-    },
-
-    "databaseAccessor":{
-      "enabled": true
-    },
-
     "frameworkLogger":{
       "defaultLogLevel": "INFO"
     },
