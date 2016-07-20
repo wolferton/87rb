@@ -1,13 +1,13 @@
 package endpoint
 
 import (
-	"github.com/wolferton/quilt/facility/logger"
 	"github.com/wolferton/87rb/87rb-api/dao"
 	"github.com/wolferton/87rb/87rb-api/dto"
 	"github.com/wolferton/quilt/ws"
 	"github.com/wolferton/87rb/87rb-api/trigger"
 	"strings"
 	"github.com/wolferton/quilt/facility/rdbms"
+	"github.com/wolferton/quilt/logging"
 )
 
 const (
@@ -20,7 +20,7 @@ const (
 
 
 type PostJobLogic struct {
-	QuiltApplicationLogger logger.Logger
+	QuiltApplicationLogger logging.Logger
 	JobDao                 *dao.JobDao
 	TriggerNotifier trigger.TriggerNotifier
 	RdbmsClientManager rdbms.RdbmsClientManager

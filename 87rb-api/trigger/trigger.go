@@ -3,10 +3,10 @@ package trigger
 import (
 	"encoding/json"
 	"net/http"
-	"github.com/wolferton/quilt/facility/logger"
 	"bytes"
 	"errors"
 	"fmt"
+	"github.com/wolferton/quilt/logging"
 )
 
 const (
@@ -20,7 +20,7 @@ type TriggerNotifier interface {
 type HttpTriggerNotifier struct {
 	TriggerUri string
 	HealthCheckUri string
-	QuiltApplicationLogger logger.Logger
+	QuiltApplicationLogger logging.Logger
 }
 
 

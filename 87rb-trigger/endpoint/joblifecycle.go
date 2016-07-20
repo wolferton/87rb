@@ -1,13 +1,13 @@
 package endpoint
 
 import (
-	"github.com/wolferton/quilt/facility/logger"
 	"github.com/wolferton/quilt/ws"
 	"github.com/wolferton/87rb/87rb-trigger/lifecycle"
+	"github.com/wolferton/quilt/logging"
 )
 
 type PostJobLifecycleLogic struct {
-	QuiltApplicationLogger logger.Logger
+	QuiltApplicationLogger logging.Logger
 	EventListener *lifecycle.LifecycleEventListener
 
 }

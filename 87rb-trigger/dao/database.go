@@ -3,12 +3,12 @@ package dao
 import (
 	"database/sql"
 	_ "github.com/lib/pq"
-	"github.com/wolferton/quilt/facility/logger"
+	"github.com/wolferton/quilt/logging"
 )
 
 type PostgreSQLCoreDatabaseProvider struct {
 	ConnectionString string
-	QuiltApplicationLogger logger.Logger
+	QuiltApplicationLogger logging.Logger
 }
 
 func (pdcp *PostgreSQLCoreDatabaseProvider) Database() (*sql.DB, error) {
