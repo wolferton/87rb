@@ -1,13 +1,13 @@
 package endpoint
 
 import (
-	"github.com/wolferton/quilt/ws"
+	"github.com/graniticio/granitic/ws"
 	"github.com/wolferton/87rb/87rb-trigger/lifecycle"
-	"github.com/wolferton/quilt/logging"
+	"github.com/graniticio/granitic/logging"
 )
 
 type PostJobLifecycleLogic struct {
-	QuiltApplicationLogger logging.Logger
+	Log logging.Logger
 	EventListener *lifecycle.LifecycleEventListener
 
 }
@@ -18,7 +18,7 @@ func (pjll *PostJobLifecycleLogic) Validate(errors *ws.ServiceErrors, request *w
 
 func (pjll *PostJobLifecycleLogic) Process(request *ws.WsRequest, response *ws.WsResponse){
 	jl := request.RequestBody.(*JobLifecycle)
-	l := pjll.QuiltApplicationLogger
+	l := pjll.Log
 
 	l.LogDebugf("Job lifecycle notification %s/%s", jl.Ref, jl.Event)
 

@@ -19,7 +19,6 @@
   "FrameworkLogger":{
     "DefaultLogLevel": "INFO",
     "ComponentLogLevels": {
-      "quiltFrameworkLoggingDecorator": "FATAL"
     }
 
   },

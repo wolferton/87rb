@@ -1,9 +1,9 @@
 package dao
 
 import (
-	"github.com/wolferton/quilt/facility/rdbms"
+	"github.com/graniticio/granitic/facility/rdbms"
 	"github.com/wolferton/87rb/87rb-api/dto"
-	"github.com/wolferton/quilt/logging"
+	"github.com/graniticio/granitic/logging"
 )
 
 const apiUserId  = 70
@@ -12,7 +12,7 @@ const PeriodicSchedule = "PERIODIC"
 
 type JobDao struct {
 	ConnectionString string
-	QuiltApplicationLogger logging.Logger
+	Log logging.Logger
 }
 
 func (jd *JobDao) CreateJob(job *dto.PostJob, rc *rdbms.RdbmsClient) error {

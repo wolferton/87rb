@@ -1,7 +1,7 @@
 package main
 
 import (
-	"github.com/wolferton/quilt/initiation"
+	"github.com/graniticio/granitic/initiation"
 	"github.com/wolferton/87rb/87rb-api/bindings"
 )
 

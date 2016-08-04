@@ -1,7 +1,7 @@
 package lifecycle
 
 import (
-	"github.com/wolferton/quilt/logging"
+	"github.com/graniticio/granitic/logging"
 )
 
 type ResourceType int
@@ -31,7 +31,7 @@ func (en *EventNotification) String() string {
 
 
 type LifecycleEventListener struct {
-	QuiltApplicationLogger logging.Logger
+	Log logging.Logger
 	events chan *EventNotification
 }
 
@@ -50,7 +50,7 @@ func (lel *LifecycleEventListener) Notify(event *EventNotification) {
 
 func (lel *LifecycleEventListener) Listen() {
 
-	l := lel.QuiltApplicationLogger
+	l := lel.Log
 	l.LogDebugf("Listening for lifecycle events")
 
 	for {

@@ -6,7 +6,7 @@ import (
 	"bytes"
 	"errors"
 	"fmt"
-	"github.com/wolferton/quilt/logging"
+	"github.com/graniticio/granitic/logging"
 )
 
 const (
@@ -20,7 +20,7 @@ type TriggerNotifier interface {
 type HttpTriggerNotifier struct {
 	TriggerUri string
 	HealthCheckUri string
-	QuiltApplicationLogger logging.Logger
+	Log logging.Logger
 }
 
 
@@ -33,7 +33,7 @@ func (htn *HttpTriggerNotifier) Notify(ref string, event string) {
 	resp, err := http.Post(htn.TriggerUri, "application/json", bytes.NewReader(data))
 
 	if err != nil {
-		htn.QuiltApplicationLogger.LogErrorf("Unable to send job lifecycle event %s/%s to %s %s", ref, event, htn.TriggerUri, err)
+		htn.Log.LogErrorf("Unable to send job lifecycle event %s/%s to %s %s", ref, event, htn.TriggerUri, err)
 	} else {
 		resp.Body.Close()
 	}

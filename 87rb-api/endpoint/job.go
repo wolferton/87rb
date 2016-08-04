@@ -3,11 +3,11 @@ package endpoint
 import (
 	"github.com/wolferton/87rb/87rb-api/dao"
 	"github.com/wolferton/87rb/87rb-api/dto"
-	"github.com/wolferton/quilt/ws"
+	"github.com/graniticio/granitic/ws"
 	"github.com/wolferton/87rb/87rb-api/trigger"
 	"strings"
-	"github.com/wolferton/quilt/facility/rdbms"
-	"github.com/wolferton/quilt/logging"
+	"github.com/graniticio/granitic/facility/rdbms"
+	"github.com/graniticio/granitic/logging"
 )
 
 const (
@@ -20,7 +20,7 @@ const (
 
 
 type PostJobLogic struct {
-	QuiltApplicationLogger logging.Logger
+	Log logging.Logger
 	JobDao                 *dao.JobDao
 	TriggerNotifier trigger.TriggerNotifier
 	RdbmsClientManager rdbms.RdbmsClientManager
@@ -36,7 +36,7 @@ func (pjl *PostJobLogic) Validate(errors *ws.ServiceErrors, request *ws.WsReques
 	exists, err := dao.JobExists(job.Ref, rc)
 
 	if err != nil {
-		pjl.QuiltApplicationLogger.LogErrorf("Problem checking to see if job with reference %s, already exists: %s", job.Ref, err)
+		pjl.Log.LogErrorf("Problem checking to see if job with reference %s, already exists: %s", job.Ref, err)
 		errors.AddPredefinedError(jobCouldNotCheckExists)
 
 	} else if exists {
@@ -63,7 +63,7 @@ func (pjl *PostJobLogic) Process(request *ws.WsRequest, response *ws.WsResponse)
 	err := pjl.JobDao.CreateJob(job, rc)
 
 	if err != nil {
-		pjl.QuiltApplicationLogger.LogErrorf("Problem creating new Job %s ", err)
+		pjl.Log.LogErrorf("Problem creating new Job %s ", err)
 		response.Errors.AddPredefinedError(jobCouldNotCreateDb)
 
 		return

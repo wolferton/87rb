@@ -3,7 +3,7 @@
     "github.com/wolferton/87rb/87rb-api/endpoint",
     "github.com/wolferton/87rb/87rb-api/dao",
     "github.com/wolferton/87rb/87rb-api/trigger",
-    "github.com/wolferton/quilt/ws"
+    "github.com/graniticio/granitic/ws"
   ],
 
   "components": {
@@ -26,7 +26,7 @@
       "type": "endpoint.PostJobLogic",
       "JobDao": "ref:jobDao",
       "TriggerNotifier": "ref:httpTriggerNotifier",
-      "RdbmsClientManager": "ref:quiltRdbmsClientManager"
+      "RdbmsClientManager": "ref:gntcRdbmsClientManager"
     },
 
     "httpTriggerNotifier": {

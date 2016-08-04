@@ -1,12 +1,12 @@
 package endpoint
 
 import (
-	"github.com/wolferton/quilt/ws"
-	"github.com/wolferton/quilt/logging"
+	"github.com/graniticio/granitic/ws"
+	"github.com/graniticio/granitic/logging"
 )
 
 type HealthCheckLogic struct {
-	QuiltApplicationLogger logging.Logger
+	Log logging.Logger
 }
 
 func (hcl *HealthCheckLogic) Process(request *ws.WsRequest, response *ws.WsResponse){

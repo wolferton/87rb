@@ -3,7 +3,7 @@
     "github.com/wolferton/87rb/87rb-trigger/dao",
     "github.com/wolferton/87rb/87rb-trigger/lifecycle",
     "github.com/wolferton/87rb/87rb-trigger/endpoint",
-    "github.com/wolferton/quilt/ws"
+    "github.com/graniticio/granitic/ws"
   ],
 
   "components": {
