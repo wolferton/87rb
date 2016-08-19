@@ -1,12 +1,10 @@
 package main
 
 import (
-	"github.com/graniticio/granitic/initiation"
 	"github.com/wolferton/87rb/87rb-api/bindings"
+	"github.com/graniticio/granitic"
 )
 
 func main() {
-
-	quiltInitiator := new(initiation.Initiator)
-	quiltInitiator.Start(bindings.Components())
+	granitic.StartGranitic(bindings.Components())
 }

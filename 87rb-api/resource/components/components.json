@@ -3,7 +3,7 @@
     "github.com/wolferton/87rb/87rb-api/endpoint",
     "github.com/wolferton/87rb/87rb-api/dao",
     "github.com/wolferton/87rb/87rb-api/trigger",
-    "github.com/graniticio/granitic/ws"
+    "github.com/graniticio/granitic/ws/handler"
   ],
 
   "components": {
@@ -16,7 +16,7 @@
     },
 
     "postJobProvider": {
-      "type": "ws.WsHandler",
+      "type": "handler.WsHandler",
       "HttpMethod": "POST",
       "PathMatchPattern": "/job",
       "Logic": "ref:postJobLogic"
@@ -36,7 +36,7 @@
     },
 
     "healthCheckProvider": {
-      "type": "ws.WsHandler",
+      "type": "handler.WsHandler",
       "HttpMethod": "GET",
       "PathMatchPattern": "/health-check",
       "Logic": "ref:healthCheckLogic"

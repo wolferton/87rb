@@ -3,7 +3,7 @@
     "github.com/wolferton/87rb/87rb-trigger/dao",
     "github.com/wolferton/87rb/87rb-trigger/lifecycle",
     "github.com/wolferton/87rb/87rb-trigger/endpoint",
-    "github.com/graniticio/granitic/ws"
+    "github.com/graniticio/granitic/ws/handler"
   ],
 
   "components": {
@@ -13,7 +13,7 @@
     },
 
     "postJobLifecycleHandler": {
-      "type": "ws.WsHandler",
+      "type": "handler.WsHandler",
       "HttpMethod": "POST",
       "PathMatchPattern": "/job-lifecycle",
       "Logic": "ref:postJobLifecycleLogic"
@@ -29,7 +29,7 @@
     },
 
     "healthCheckHandler": {
-      "type": "ws.WsHandler",
+      "type": "handler.WsHandler",
       "HttpMethod": "GET",
       "PathMatchPattern": "/health-check",
       "Logic": "ref:healthCheckLogic"
